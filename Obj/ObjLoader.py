@@ -1,6 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import numpy as np
 
 
+# Classe per carregar un fitxer .obj
 class ObjLoader:
     def __init__(self):
         self.vert_coords = []
@@ -51,7 +55,7 @@ class ObjLoader:
         for i in self.texture_index:
             self.model.extend(self.text_coords[i])
 
-        for i in self.normal_index:
-            self.model.extend(self.norm_coords[i])
+        # for i in self.normal_index:
+        #    self.model.extend(self.norm_coords[i])
 
         self.model = np.array(self.model, dtype='float32')

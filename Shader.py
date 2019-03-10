@@ -8,15 +8,18 @@ class Shader:
     def vertex_shader():
         return """
                 #version 330
-                layout (location = 0) in vec3 position;
+                in layout (location = 0) vec3 position;
+                in layout (location = 1) vec2 textureCoords;
                 
                 uniform mat4 proj;
                 uniform mat4 view;
                 uniform mat4 model;
                 
+                out vec2 newTexture;
                 void main()
                 {
                     gl_Position = proj * view * model * vec4(position, 1.0);
+                    newTexture = textureCoords;
                 }
                 """
 
@@ -25,9 +28,11 @@ class Shader:
         return """
                 #version 330
                 out vec4 outColor;
+                in vec2 newTexture;
+                uniform sampler2D samplerTexture;
                 void main()
                 {
-                    outColor = vec4(0.8, 0.2, 0.0, 1.0);
+                    outColor = texture(samplerTexture, newTexture); 
                 }
                 """
 

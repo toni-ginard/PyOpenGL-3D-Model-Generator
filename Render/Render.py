@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 from OpenGL.GL import *
 import os
 from PIL import Image
@@ -5,10 +9,11 @@ from PIL import Image
 
 class Render:
 
+    # Mètode per guardar el model com a imatge jpg
     @staticmethod
     def render_to_jpg():
 
-        os.chdir("/Users/toniginard/Desktop")
+        os.chdir("/models")
 
         x, y, width, height = glGetDoublev(GL_VIEWPORT)
         width, height = int(width), int(height)
