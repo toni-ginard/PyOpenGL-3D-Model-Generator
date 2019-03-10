@@ -9,7 +9,7 @@ from PIL import Image
 from Finestra import Finestra
 from Render.Render import Render
 from Obj.ObjLoader import *
-from Shader_old import *
+from OpenGL_Operations import *
 from Shaders import ShaderLoader
 
 
@@ -45,7 +45,7 @@ def main():
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, obj.model.itemsize * 3, ctypes.c_void_p(0))
     glEnableVertexAttribArray(0)
     # texture
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, obj.model.itemsize * 2, ctypes.c_void_p(288))
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, obj.model.itemsize * 2, ctypes.c_void_p(432))
     glEnableVertexAttribArray(1)
 
     texture = glGenTextures(1)
@@ -56,7 +56,7 @@ def main():
     # Set texture filtering parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-    # load image
+    # load texture image
     image = Image.open("res/cube_texture.jpg")
     flipped_image = image.transpose(Image.FLIP_TOP_BOTTOM)
     img_data = numpy.array(list(flipped_image.getdata()), numpy.uint8)
@@ -69,9 +69,9 @@ def main():
     # glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 
     # matrius (model -> view -> projection)
-    view = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, 0.0, -4.0]))
-    proj = pyrr.matrix44.create_perspective_projection_matrix(45.0, width / height, 0.1, 100.0)
-    model = pyrr.matrix44.create_from_translation(pyrr.Vector3([2.0, 5.0, -15.0]))
+    view = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, -7.0, -3.0]))
+    proj = pyrr.matrix44.create_perspective_projection_matrix(60.0, width / height, 0.1, 100.0)
+    model = pyrr.matrix44.create_from_translation(pyrr.Vector3([2.0, 5.0, -10.0]))
 
     view_loc = glGetUniformLocation(shader, "view")
     proj_loc = glGetUniformLocation(shader, "proj")

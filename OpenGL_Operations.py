@@ -6,21 +6,8 @@ from OpenGL.GL import *
 import OpenGL.GL.shaders
 import pyrr
 
+
 class Shader:
-
-    @staticmethod
-    def vertex_shader():
-        return """ """
-
-    @staticmethod
-    def fragment_shader(r, g, b):
-        return """ """
-
-    @staticmethod
-    def compilar_shaders(vertex_shader, fragment_shader):
-        # shader: l'utilitzam per renderitzar
-        return OpenGL.GL.shaders.compileProgram(OpenGL.GL.shaders.compileShader(vertex_shader, GL_VERTEX_SHADER),
-                                                OpenGL.GL.shaders.compileShader(fragment_shader, GL_FRAGMENT_SHADER))
 
     # mac
     @staticmethod
