@@ -31,6 +31,9 @@ def main():
     obj = ObjLoader()
     obj.load_model("res/cube.obj")
 
+    texture_offset = len(obj.vertex_index) * 12
+    normal_offset = texture_offset + len(obj.texture_index) * 2 * 4
+
     Shader.bind_vao()  # genèric
 
     # compilar shaders
@@ -45,8 +48,11 @@ def main():
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, obj.model.itemsize * 3, ctypes.c_void_p(0))
     glEnableVertexAttribArray(0)
     # texture
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, obj.model.itemsize * 2, ctypes.c_void_p(432))
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, obj.model.itemsize * 2, ctypes.c_void_p(texture_offset))
     glEnableVertexAttribArray(1)
+    # normals
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, obj.model.itemsize * 3, ctypes.c_void_p(normal_offset))
+    glEnableVertexAttribArray(2)
 
     texture = glGenTextures(1)
     glBindTexture(GL_TEXTURE_2D, texture)
@@ -72,20 +78,24 @@ def main():
     view = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, -7.0, -3.0]))
     proj = pyrr.matrix44.create_perspective_projection_matrix(60.0, width / height, 0.1, 100.0)
     model = pyrr.matrix44.create_from_translation(pyrr.Vector3([2.0, 5.0, -10.0]))
+    light = pyrr.matrix44.create_from_translation(pyrr.Vector3([-2.0, -2.0, 0.0]))
 
     view_loc = glGetUniformLocation(shader, "view")
     proj_loc = glGetUniformLocation(shader, "proj")
     model_loc = glGetUniformLocation(shader, "model")
-    # light_loc = glUniformMatrix4fv(shader, "light")
+    light_loc = glGetUniformLocation(shader, "light")
 
     glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
     glUniformMatrix4fv(proj_loc, 1, GL_FALSE, proj)
     glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
 
+
     while not glfw.window_should_close(window):
         # Render here, e.g. using pyOpenGL
         glfw.poll_events()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        glUniformMatrix4fv(light_loc, 1, GL_FALSE, light)
 
         glDrawArrays(GL_TRIANGLES, 0, len(obj.vertex_index))
 
