@@ -3,15 +3,14 @@
 
 
 import glfw
-import pyrr
-from OpenGL.GL import *
-from Figures.Cub import Cub
+import numpy
+from PIL import Image
+
 from Finestra import Finestra
-from Shader import Shader
 from Render.Render import Render
 from Obj.ObjLoader import *
-from PIL import Image
-import numpy
+from Shader_old import *
+from Shaders import ShaderLoader
 
 
 width = 640
@@ -32,13 +31,10 @@ def main():
     obj = ObjLoader()
     obj.load_model("res/cube.obj")
 
-    vertex_shader = Shader.vertex_shader()
-    fragment_shader = Shader.fragment_shader(0.0, 0.8, 0.0)
-
     Shader.bind_vao()  # genèric
 
     # compilar shaders
-    shader = Shader.compilar_shaders(vertex_shader, fragment_shader)
+    shader = ShaderLoader.compile_shader("Shaders/vertex_shader.vs", "Shaders/fragment_shader.fs")
 
     # VBO
     vbo = glGenBuffers(1)
@@ -65,16 +61,17 @@ def main():
     flipped_image = image.transpose(Image.FLIP_TOP_BOTTOM)
     img_data = numpy.array(list(flipped_image.getdata()), numpy.uint8)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, img_data)
-    glEnable(GL_TEXTURE_2D)
+    # glEnable(GL_TEXTURE_2D)
 
     glUseProgram(shader)
     glClearColor(0.7, 0.7, 0.7, 1.0)  # color fons
     glEnable(GL_DEPTH_TEST)  # profunditat
+    # glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 
     # matrius (model -> view -> projection)
     view = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, 0.0, -4.0]))
     proj = pyrr.matrix44.create_perspective_projection_matrix(45.0, width / height, 0.1, 100.0)
-    model = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, 0.0, 0.0]))
+    model = pyrr.matrix44.create_from_translation(pyrr.Vector3([2.0, 5.0, -15.0]))
 
     view_loc = glGetUniformLocation(shader, "view")
     proj_loc = glGetUniformLocation(shader, "proj")
