@@ -75,29 +75,35 @@ def main():
     # glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 
     # matrius (model -> view -> projection)
-    view = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, -7.0, -3.0]))
+    view = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, -5.0, -10.0]))
     proj = pyrr.matrix44.create_perspective_projection_matrix(60.0, width / height, 0.1, 100.0)
-    model = pyrr.matrix44.create_from_translation(pyrr.Vector3([2.0, 5.0, -10.0]))
-    light = pyrr.matrix44.create_from_translation(pyrr.Vector3([-2.0, -2.0, 0.0]))
+    # model = pyrr.matrix44.create_from_translation(pyrr.Vector3([2.0, 5.0, -10.0]))
+    # light = pyrr.matrix44.create_from_translation(pyrr.Vector3([-2.0, -2.0, 0.0]))
 
     view_loc = glGetUniformLocation(shader, "view")
     proj_loc = glGetUniformLocation(shader, "proj")
-    model_loc = glGetUniformLocation(shader, "model")
+    # model_loc = glGetUniformLocation(shader, "model")
     light_loc = glGetUniformLocation(shader, "light")
 
     glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
     glUniformMatrix4fv(proj_loc, 1, GL_FALSE, proj)
-    glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
+    # glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
 
+    cube_positions = [(-9.0, -2.0, -10.0), (-1.5, -1.2, -10.0), (8.0, 0.0, -10.0), (-3.0, 8.0, 1.0),
+                      (5.0, 8.0, -10.0)]
 
     while not glfw.window_should_close(window):
         # Render here, e.g. using pyOpenGL
         glfw.poll_events()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
-        glUniformMatrix4fv(light_loc, 1, GL_FALSE, light)
+        for i in range(len(cube_positions)):
+            model_loc = glGetUniformLocation(shader, "model")
 
-        glDrawArrays(GL_TRIANGLES, 0, len(obj.vertex_index))
+            model = pyrr.matrix44.create_from_translation(cube_positions[i])
+            glUniformMatrix4fv(light_loc, 1, GL_FALSE, model)  # model, abans light
+            glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
+            glDrawArrays(GL_TRIANGLES, 0, len(obj.vertex_index))
 
         glfw.swap_buffers(window)
 
