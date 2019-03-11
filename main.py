@@ -43,8 +43,8 @@ def main():
     Shader.get_atribut(shader, "position")
     Shader.vertex_attrib(0)
     # normals
-    # glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12, 0)
-
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 12, 0)
+    glEnableVertexAttribArray(1)
 
     glUseProgram(shader)
     glClearColor(0.7, 0.7, 0.7, 1.0)  # color fons
@@ -53,7 +53,7 @@ def main():
     # matrius (model -> view -> projection)
     view = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, 0.0, -4.0]))
     proj = pyrr.matrix44.create_perspective_projection_matrix(45.0, width / height, 0.1, 100.0)
-    light = pyrr.matrix44.create_from_translation(pyrr.Vector3([-2.0, 2.0, 0.0]))
+    light = pyrr.matrix44.create_from_translation(pyrr.Vector3([2.0, 2.0, 2.0]))
 
     view_loc = glGetUniformLocation(shader, "view")
     proj_loc = glGetUniformLocation(shader, "proj")
@@ -63,7 +63,7 @@ def main():
     glUniformMatrix4fv(proj_loc, 1, GL_FALSE, proj)
     glUniformMatrix4fv(light_loc, 1, GL_FALSE, light)
 
-    cube_positions = [(2.0, 5.0, -15.0), (-1.5, -1.2, -2.5)]
+    cube_positions = [(2.0, 5.0, -15.0), (-1.5, -1.2, -2.5), (1.0, -0.0, -4.0)]
 
     while not glfw.window_should_close(window):
         # Render here, e.g. using pyOpenGL
