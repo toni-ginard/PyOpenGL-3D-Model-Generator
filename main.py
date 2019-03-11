@@ -3,13 +3,15 @@
 
 
 import glfw
-import pyrr
-from OpenGL.GL import *
-from Figures.Cub import Cub
+import numpy
+from PIL import Image
+
 from Finestra import Finestra
-from Shader import Shader
 from Render.Render import Render
 from Obj.ObjLoader import *
+from OpenGL_Operations import *
+from Shaders import ShaderLoader
+from Figures.Cub import Cub
 
 
 width = 640
@@ -29,12 +31,10 @@ def main():
 
     cub = Cub()
 
-    vertex_shader = Shader.vertex_shader()
-    fragment_shader = Shader.fragment_shader(0.0, 0.8, 0.0)
-
     Shader.bind_vao()  # genèric
 
-    shader = Shader.compilar_shaders(vertex_shader, fragment_shader)  # compilar shaders
+    # compilar shaders
+    shader = ShaderLoader.compile_shader("Shaders/vertex_shader.vs", "Shaders/fragment_shader.fs")
 
     Shader.bind_vbo(cub.vertexs)  # cub.vertes
     Shader.bind_ebo(cub.indexs)

@@ -1,5 +1,5 @@
 import numpy
-from Shader import Shader
+from OpenGL_Operations import Shader
 
 
 class Piramide:

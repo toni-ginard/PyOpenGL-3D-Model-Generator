@@ -2,40 +2,8 @@ from OpenGL.GL import *
 import OpenGL.GL.shaders
 import pyrr
 
+
 class Shader:
-
-    @staticmethod
-    def vertex_shader():
-        return """
-                #version 330
-                layout (location = 0) in vec3 position;
-                
-                uniform mat4 proj;
-                uniform mat4 view;
-                uniform mat4 model;
-                
-                void main()
-                {
-                    gl_Position = proj * view * model * vec4(position, 1.0);
-                }
-                """
-
-    @staticmethod
-    def fragment_shader(r, g, b):
-        return """
-                #version 330
-                out vec4 outColor;
-                void main()
-                {
-                    outColor = vec4(0.8, 0.2, 0.0, 1.0);
-                }
-                """
-
-    @staticmethod
-    def compilar_shaders(vertex_shader, fragment_shader):
-        # shader: l'utilitzam per renderitzar
-        return OpenGL.GL.shaders.compileProgram(OpenGL.GL.shaders.compileShader(vertex_shader, GL_VERTEX_SHADER),
-                                                OpenGL.GL.shaders.compileShader(fragment_shader, GL_FRAGMENT_SHADER))
 
     # mac
     @staticmethod
