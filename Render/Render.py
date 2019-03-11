@@ -8,7 +8,7 @@ class Render:
     @staticmethod
     def render_to_jpg():
 
-        os.chdir("/Users/toniginard/Desktop")
+        os.chdir("/Users/toniginard/PycharmProjects/Generador-Models-3D/models")
 
         x, y, width, height = glGetDoublev(GL_VIEWPORT)
         width, height = int(width), int(height)
