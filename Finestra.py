@@ -20,3 +20,7 @@ class Finestra:
     @staticmethod
     def make_context(finestra):
         glfw.make_context_current(finestra)
+
+    @staticmethod
+    def color_fons(r, g, b):
+        glClearColor(r, g, b, 1.0)
