@@ -1,5 +1,7 @@
 import numpy
-
+from Buffer.Buffer import *
+from Shaders import ShaderLoader
+from Espai.Espai import *
 
 class Piramide:
 
@@ -12,3 +14,4 @@ class Piramide:
 
         self.vertexs = numpy.array(self.vertexs, numpy.float32)
         self.indexs = numpy.array(self.indexs, numpy.uint32)
+

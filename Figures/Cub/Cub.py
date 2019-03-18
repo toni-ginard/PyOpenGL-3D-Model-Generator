@@ -3,6 +3,7 @@ from Buffer.Buffer import *
 from Shaders import ShaderLoader
 from Espai.Espai import *
 
+
 class Cub:
 
     def __init__(self):
