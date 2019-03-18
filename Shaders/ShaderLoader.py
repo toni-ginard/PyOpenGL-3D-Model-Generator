@@ -7,6 +7,7 @@ import OpenGL.GL.shaders
 
 
 def load_shader(shader_file):
+    shader_source = ""
     with open(shader_file) as f:
         shader_source = f.read()
     f.close()
