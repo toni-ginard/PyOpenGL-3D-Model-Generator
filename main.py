@@ -2,15 +2,11 @@
 # -*- coding: utf-8 -*-
 
 
-import glfw
-import pyrr
-
-from OpenGL.GL import *
-from Finestra import Finestra
+from Finestra.Finestra import *
 from Render.Render import Render
-from Shaders import ShaderLoader
 from Figures.Cub.Cub import Cub
-
+from Buffer.Buffer import *
+from Espai.Espai import Espai
 
 width = 640
 height = 480
@@ -29,26 +25,14 @@ def main():
 
     # CREACIÓ I INSTANCIACIÓ D'UN CUB
     cub = Cub()
-    Cub.bind_vao()
-    cub_shader = ShaderLoader.compile_shader("Figures/Cub/vertex_shader.vs", "Figures/Cub/fragment_shader.fs")
-    cub.bind_vbo()
-    cub.bind_ebo()
-    # position = ...
-    Cub.get_atribut(cub_shader, "position")
-    Cub.vertex_attrib()
-    # normals, textures...
+    cub_shader = cub.instanciar_cub()
 
     # matrius (model -> view -> projection)
-    view = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, 0.0, -4.0]))
-    proj = pyrr.matrix44.create_perspective_projection_matrix(45.0, width / height, 0.1, 100.0)
+    proj = Espai.proj(45.0, width, height, 0.1, 100.0)  # general
 
-    glUseProgram(cub_shader)
+    view = Espai.view(0.0, 0.0, -4.0)  # 1 / tipus figura
 
-    view_loc = glGetUniformLocation(cub_shader, "view")
-    proj_loc = glGetUniformLocation(cub_shader, "proj")
-
-    glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
-    glUniformMatrix4fv(proj_loc, 1, GL_FALSE, proj)
+    Cub.view_proj_cub(cub_shader, view, proj)
 
     cube_positions = [(2.0, 5.0, -15.0), (-1.5, -1.2, -2.5), (1.0, -0.0, -4.0)]
 
@@ -56,14 +40,12 @@ def main():
     glEnable(GL_DEPTH_TEST)  # profunditat
 
     while not glfw.window_should_close(window):
-        # Render here, e.g. using pyOpenGL
-        glfw.poll_events()
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        Finestra.events()
 
         for i in range(len(cube_positions)):
-            model_loc = glGetUniformLocation(cub_shader, "model")
-            model = pyrr.matrix44.create_from_translation(cube_positions[i])  #
-            glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)  #
+            model = Espai.model(cube_positions[i])
+            Espai.model_loc(cub_shader, model)
             glDrawElements(GL_TRIANGLES, cub.indexs.size, GL_UNSIGNED_INT, None)
 
         glfw.swap_buffers(window)

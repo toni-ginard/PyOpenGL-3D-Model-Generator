@@ -24,3 +24,8 @@ class Finestra:
     @staticmethod
     def color_fons(r, g, b):
         glClearColor(r, g, b, 1.0)
+
+    @staticmethod
+    def events():
+        glfw.poll_events()
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)

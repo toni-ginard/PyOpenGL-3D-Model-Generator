@@ -1,6 +1,7 @@
 import numpy
-from OpenGL.GL import *
-
+from Buffer.Buffer import *
+from Shaders import ShaderLoader
+from Espai.Espai import *
 
 class Cub:
 
@@ -20,29 +21,19 @@ class Cub:
         self.vertexs = numpy.array(self.vertexs, numpy.float32)
         self.indexs = numpy.array(self.indexs, numpy.uint32)
 
-    @staticmethod
-    def bind_vao():
-        cub_vao = glGenVertexArrays(1)
-        glBindVertexArray(cub_vao)
+    def instanciar_cub(self):
+        Buffer.bind_vao()
+        cub_shader = ShaderLoader.compile_shader("Figures/Cub/vertex_shader.vs", "Figures/Cub/fragment_shader.fs")
+        Buffer.bind_vbo(self.vertexs)
+        Buffer.bind_ebo(self.indexs)
+        # position = ...
+        Buffer.get_atribut(cub_shader, "position")
+        Buffer.vertex_attrib(0)
+        # normals, textures...
 
-    # copiar a la memoria el buffer de la figura
-    def bind_vbo(self):
-        vbo = glGenBuffers(1)
-        glBindBuffer(GL_ARRAY_BUFFER, vbo)  # vincular 2 buffers
-        glBufferData(GL_ARRAY_BUFFER, self.vertexs.nbytes, self.vertexs, GL_STATIC_DRAW)
-
-    # copiar a la memoria el buffer dels indexs
-    def bind_ebo(self):
-        ebo = glGenBuffers(1)
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo)
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, self.indexs.nbytes, self.indexs, GL_STATIC_DRAW)
+        glUseProgram(cub_shader)
+        return cub_shader
 
     @staticmethod
-    def get_atribut(shader, atribut):
-        return glGetAttribLocation(shader, atribut)
-
-    @staticmethod
-    def vertex_attrib():
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12, ctypes.c_void_p(0))
-        glEnableVertexAttribArray(0)  # 1 vertex son 3 coordenades float = 12 bytes
-        # 0 o atribut ("position"), offset = 0
+    def view_proj_cub(shader, view, proj):
+        Espai.view_proj(shader, view, proj)
