@@ -37,3 +37,7 @@ class Cub:
     @staticmethod
     def view_proj_cub(shader, view, proj):
         Espai.view_proj(shader, view, proj)
+
+    @staticmethod
+    def dibuixar_cub(posicio, shader, indexs_figura):
+        Espai.dibuixar_figura(posicio, shader, indexs_figura)

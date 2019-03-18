@@ -40,3 +40,9 @@ class Espai:
     def model_loc(shader, model):
         model_loc = glGetUniformLocation(shader, "model")
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
+
+    @staticmethod
+    def dibuixar_figura(posicio, shader, indexs_figura):
+        model = Espai.model(posicio)
+        Espai.model_loc(shader, model)
+        glDrawElements(GL_TRIANGLES, indexs_figura.size, GL_UNSIGNED_INT, None)
