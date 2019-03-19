@@ -22,18 +22,12 @@ class Cub:
         self.vertexs = numpy.array(self.vertexs, numpy.float32)
         self.indexs = numpy.array(self.indexs, numpy.uint32)
 
-    def instanciar_cub(self):
-        Buffer.bind_vao()
-        cub_shader = ShaderLoader.compile_shader("Figures/Cub/vertex_shader.vs", "Figures/Cub/fragment_shader.fs")
+    def instanciar_cub(self, shader):
         Buffer.bind_vbo(self.vertexs)
         Buffer.bind_ebo(self.indexs)
-        # position = ...
-        Buffer.get_atribut(cub_shader, "position")
+        Buffer.get_atribut(shader, "position")
         Buffer.vertex_attrib(0)
-        # normals, textures...
 
-        glUseProgram(cub_shader)
-        return cub_shader
 
     @staticmethod
     def view_proj_cub(shader, view, proj):

@@ -3,6 +3,7 @@ from Buffer.Buffer import *
 from Shaders import ShaderLoader
 from Espai.Espai import *
 
+
 class Piramide:
 
     def __init__(self):
@@ -15,3 +16,8 @@ class Piramide:
         self.vertexs = numpy.array(self.vertexs, numpy.float32)
         self.indexs = numpy.array(self.indexs, numpy.uint32)
 
+    def instanciar_piramide(self, shader):
+        Buffer.bind_vbo(self.vertexs)
+        Buffer.bind_ebo(self.indexs)
+        Buffer.get_atribut(shader, "position")
+        Buffer.vertex_attrib(0)

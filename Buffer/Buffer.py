@@ -6,8 +6,8 @@ class Buffer:
 
     @staticmethod
     def bind_vao():
-        vao = glGenVertexArrays(1)  # mac
-        glBindVertexArray(vao)      # mac
+        vao = glGenVertexArrays(1)
+        glBindVertexArray(vao)
 
     # copiar a la memoria el buffer de la figura
     @staticmethod
