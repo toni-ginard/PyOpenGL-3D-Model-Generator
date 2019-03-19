@@ -40,9 +40,8 @@ def main():
                                              "Figures/Piramide/fragment_piramide.fs")
     pir.instanciar_piramide(pir_shader)
 
-    proj = pyrr.matrix44.create_perspective_projection_matrix(45.0, width / height, 0.1, 100.0)
-
-    view = pyrr.matrix44.create_from_translation(pyrr.Vector3([0.0, 0.0, -4.0]))
+    proj = Espai.proj(45.0, width, height, 0.1, 100.0)
+    view = Espai.view(0.0, 0.0, -4.0)
 
     glUseProgram(cub_shader)
     view_loc = glGetUniformLocation(cub_shader, "view")
@@ -63,21 +62,8 @@ def main():
     while not glfw.window_should_close(window):
         Finestra.events()
 
-        # for i in range(len(cube_positions)):
-            # Cub.dibuixar_cub(cube_positions[i], cub_shader, cub.indexs)
-        glBindVertexArray(cub_vao)
-        model = pyrr.matrix44.create_from_translation(cube_positions[1])
-        model_loc = glGetUniformLocation(cub_shader, "model")
-        glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
-        glDrawElements(GL_TRIANGLES, cub.indexs.size, GL_UNSIGNED_INT, None)
-        glBindVertexArray(0)
-
-        glBindVertexArray(pir_vao)
-        model_pir = pyrr.matrix44.create_from_translation(cube_positions[0])
-        model_loc_pir = glGetUniformLocation(pir_shader, "model")
-        glUniformMatrix4fv(model_loc_pir, 1, GL_FALSE, model_pir)
-        glDrawElements(GL_TRIANGLES, pir.indexs.size, GL_UNSIGNED_INT, None)
-        glBindVertexArray(0)
+        cub.dibuixar_cub(cub_vao, cube_positions[1], cub_shader)
+        pir.dibuixar_piramide(pir_vao, cube_positions[0], pir_shader)
 
         glfw.swap_buffers(window)
 

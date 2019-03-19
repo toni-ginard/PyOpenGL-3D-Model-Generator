@@ -28,11 +28,9 @@ class Cub:
         Buffer.get_atribut(shader, "position")
         Buffer.vertex_attrib(0)
 
-
     @staticmethod
     def view_proj_cub(shader, view, proj):
         Espai.view_proj(shader, view, proj)
 
-    @staticmethod
-    def dibuixar_cub(posicio, shader, indexs_figura):
-        Espai.dibuixar_figura(posicio, shader, indexs_figura)
+    def dibuixar_cub(self, vao, posicio, shader):
+        Espai.dibuixar_figura(vao, posicio, shader, self.indexs)
