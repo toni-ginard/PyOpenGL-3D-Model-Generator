@@ -40,6 +40,7 @@ def main():
                                              "Figures/Piramide/fragment_piramide.fs")
     pir.instanciar_piramide(pir_shader)
 
+    # general
     proj = Espai.proj(45.0, width, height, 0.1, 100.0)
     view = Espai.view(0.0, 0.0, -4.0)
 
@@ -55,6 +56,7 @@ def main():
     glUniformMatrix4fv(view_loc_pir, 1, GL_FALSE, view)
     glUniformMatrix4fv(proj_loc_pir, 1, GL_FALSE, proj)
 
+    # coordenades
     cube_positions = [(2.0, 5.0, -15.0), (-1.5, -1.2, -2.5), (1.0, -0.0, -4.0)]
 
     glEnable(GL_DEPTH_TEST)  # profunditat
