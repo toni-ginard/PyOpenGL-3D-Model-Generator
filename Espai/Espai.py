@@ -17,6 +17,10 @@ class Espai:
         return pyrr.matrix44.create_perspective_projection_matrix(dist, width / height, front_pane, back_pane)
 
     @staticmethod
+    def scale(x, y, z):
+        return pyrr.matrix44.create_from_scale(pyrr.Vector3([x, y, z]))
+
+    @staticmethod
     def view_proj(shader, view, proj):
         Espai.view_loc(shader, view)
         Espai.proj_loc(shader, proj)
@@ -44,8 +48,10 @@ class Espai:
     @staticmethod
     def dibuixar_figura(vao, posicio, shader, indexs_figura):
         glBindVertexArray(vao)
+        glUseProgram(shader)
         model = pyrr.matrix44.create_from_translation(posicio)
         model_loc = glGetUniformLocation(shader, "model")
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
         glDrawElements(GL_TRIANGLES, indexs_figura.size, GL_UNSIGNED_INT, None)
+        glUseProgram(0)
         glBindVertexArray(0)
