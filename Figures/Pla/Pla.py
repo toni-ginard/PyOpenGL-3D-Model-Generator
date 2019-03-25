@@ -7,10 +7,10 @@ from Espai.Espai import *
 class Pla:
 
     def __init__(self):
-        self.vertexs = [-0.5, 0, -0.5,  0.5, 0, -0.5,
-                        0.5, 0, 0.5,    -0.5, 0, 0.5]
+        self.vertexs = [-0.5, 0.5, 0,   0.5, 0.5, 0,
+                        -0.5, -0.5, 0,  0.5, -0.5, 0]
 
-        self.indexs = [0, 1, 3, 1, 2, 3]
+        self.indexs = [0, 1, 2, 1, 2, 3]
 
         self.vertexs = numpy.array(self.vertexs, numpy.float32)
         self.indexs = numpy.array(self.indexs, numpy.uint32)
@@ -25,5 +25,5 @@ class Pla:
     def view_proj_pla(shader, view, proj):
         Espai.view_proj(shader, view, proj)
 
-    def dibuixar_pla(self, vao, posicio, shader):
-        Espai.dibuixar_figura(vao, posicio, shader, self.indexs)
+    def dibuixar_pla(self, vao, shader):
+        Espai.dibuixar_figura(vao, shader, self.indexs)

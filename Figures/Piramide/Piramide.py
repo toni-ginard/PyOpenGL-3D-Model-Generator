@@ -22,5 +22,5 @@ class Piramide:
         Buffer.get_atribut(shader, "position")
         Buffer.vertex_attrib(0)
 
-    def dibuixar_piramide(self, vao, posicio, shader):
-        Espai.dibuixar_figura(vao, posicio, shader, self.indexs)
+    def dibuixar_piramide(self, vao, shader):
+        Espai.dibuixar_figura(vao, shader, self.indexs)
