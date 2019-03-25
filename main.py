@@ -53,7 +53,6 @@ def main():
     # general
     proj = Espai.proj(45.0, width, height, 0.1, 100.0)
     view = Espai.view(0.0, 0.0, -4.0)
-    scale = Espai.scale(8.0, 1.0, 1.0)  # pla
 
     # cub
     glUseProgram(cub_shader)
@@ -72,25 +71,27 @@ def main():
     glUseProgram(0)
 
     # pla
+    scale_pla = Espai.scale(4.5, 1.0, 1.0)
+    view_pla = Espai.view(0.0, 0.5, 10.0)
     glUseProgram(pla_shader)
     view_loc_pla = glGetUniformLocation(pla_shader, "view")
     proj_loc_pla = glGetUniformLocation(pla_shader, "proj")
     scale_loc_pla = glGetUniformLocation(pla_shader, "scale")
-    glUniformMatrix4fv(view_loc_pla, 1, GL_FALSE, view)
+    glUniformMatrix4fv(view_loc_pla, 1, GL_FALSE, view_pla)
     glUniformMatrix4fv(proj_loc_pla, 1, GL_FALSE, proj)
-    glUniformMatrix4fv(scale_loc_pla, 1, GL_FALSE, scale)
+    glUniformMatrix4fv(scale_loc_pla, 1, GL_FALSE, scale_pla)
     glUseProgram(0)
 
     # coordenades
-    positions = [(2.0, 5.0, -15.0), (-1.5, 0.2, -2.5), (0.0, -2.0, -7.5)]
+    positions = [(2.0, 5.0, -15.0), (-1.5, 0.2, -2.5), (0.0, -2.0, -15.5)]
 
     glEnable(GL_DEPTH_TEST)  # profunditat
 
     while not glfw.window_should_close(window):
         Finestra.events()
 
-        cub.dibuixar_cub(cub_vao, positions[1], cub_shader)
-        pir.dibuixar_piramide(pir_vao, positions[0], pir_shader)
+        # cub.dibuixar_cub(cub_vao, positions[1], cub_shader)
+        # pir.dibuixar_piramide(pir_vao, positions[0], pir_shader)
         pla.dibuixar_pla(pla_vao, positions[2], pla_shader)
 
         glfw.swap_buffers(window)
