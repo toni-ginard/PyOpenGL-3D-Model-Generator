@@ -30,6 +30,7 @@ def main():
 
     # coordenades
     positions = [(2.0, 2.0, -3.0), (-1.5, 2.0, -2.5), (0.0, 0.0, -5.0)]
+
     # general
     proj = Espai.proj(60.0, width, height, 0.1, 100.0)
     view = Espai.view(0.0, 0.0, 5.0)  # camera
@@ -58,35 +59,21 @@ def main():
                                              "Figures/Pla/fragment_pla.fs")
     pla.instanciar_pla(pla_shader)
 
-    # cub
-    glUseProgram(cub_shader)
-    Espai.view_loc(cub_shader, view)
-    Espai.proj_loc(cub_shader, proj)
-    Espai.model(positions[0], cub_shader)
-    glUseProgram(0)
-
-    # piramide
-    glUseProgram(pir_shader)
-    Espai.view_loc(pir_shader, view)
-    Espai.proj_loc(pir_shader, proj)
-    Espai.model(positions[1], pir_shader)
-    glUseProgram(0)
-
-    # pla
-    glUseProgram(pla_shader)
-    Espai.view_loc(pla_shader, view)
-    Espai.proj_loc(pla_shader, proj)
-    Espai.model(positions[2], pla_shader)
-    Espai.scale(pla_shader, 8.0, 8.0, 1.0)
-    glUseProgram(0)
-
     glEnable(GL_DEPTH_TEST)  # profunditat
 
     while not glfw.window_should_close(window):
         Finestra.events()
 
+        # cub
+        Espai.definir_ubicacio(cub_shader, view, proj, positions[0], 0.0, 0.0, 0.0)
         cub.dibuixar_cub(cub_vao, cub_shader)
+
+        # piramide
+        Espai.definir_ubicacio(pir_shader, view, proj, positions[1], 0.0, 0.0, 0.0)
         pir.dibuixar_piramide(pir_vao, pir_shader)
+
+        # pla
+        Espai.definir_ubicacio(pla_shader, view, proj, positions[2], 10.0, 10.0, 1.0)
         pla.dibuixar_pla(pla_vao, pla_shader)
 
         glfw.swap_buffers(window)

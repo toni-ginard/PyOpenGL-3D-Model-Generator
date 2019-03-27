@@ -48,3 +48,12 @@ class Espai:
         glDrawElements(GL_TRIANGLES, indexs_figura.size, GL_UNSIGNED_INT, None)
         glUseProgram(0)
         glBindVertexArray(0)
+
+    @staticmethod
+    def definir_ubicacio(shader, view, proj, position, scale_x, scale_y, scale_z):
+        glUseProgram(shader)
+        Espai.view_loc(shader, view)
+        Espai.proj_loc(shader, proj)
+        Espai.model(position, shader)
+        Espai.scale(shader, scale_x, scale_y, scale_z)
+        glUseProgram(0)
