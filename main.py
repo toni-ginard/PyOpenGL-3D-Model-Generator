@@ -29,7 +29,7 @@ def main():
     Finestra.color_fons(0.7, 0.7, 0.7)
 
     # coordenades
-    positions = [(2.0, 2.0, -3.0), (-1.5, 2.0, -2.5), (0.0, 0.0, -5.0)]
+    positions = [(10.0, 2.0, -25.0), (-1.5, 2.0, -2.5), (0.0, 0.0, -50.0), (1.0, 3.0, 0.0), (1.0, -0.5, 1.0)]
 
     # general
     proj = Espai.proj(60.0, width, height, 0.1, 100.0)
@@ -64,17 +64,25 @@ def main():
     while not glfw.window_should_close(window):
         Finestra.events()
 
+        # pla
+        Espai.definir_ubicacio(pla_shader, view, proj, positions[2], 50.0, 50.0, 1.0)
+        pla.dibuixar_pla(pla_vao, pla_shader)
+
         # cub
-        Espai.definir_ubicacio(cub_shader, view, proj, positions[0], 0.0, 0.0, 0.0)
+        Espai.definir_ubicacio(cub_shader, view, proj, positions[0], 1.0, 1.0, 1.0)
+        cub.dibuixar_cub(cub_vao, cub_shader)
+
+        # cub 2
+        Espai.definir_ubicacio(cub_shader, view, proj, positions[3], 0.5, 0.5, 0.5)
         cub.dibuixar_cub(cub_vao, cub_shader)
 
         # piramide
-        Espai.definir_ubicacio(pir_shader, view, proj, positions[1], 0.0, 0.0, 0.0)
+        Espai.definir_ubicacio(pir_shader, view, proj, positions[1], 1.0, 1.0, 1.0)
         pir.dibuixar_piramide(pir_vao, pir_shader)
 
-        # pla
-        Espai.definir_ubicacio(pla_shader, view, proj, positions[2], 10.0, 10.0, 1.0)
-        pla.dibuixar_pla(pla_vao, pla_shader)
+        # piramide 2
+        Espai.definir_ubicacio(pir_shader, view, proj, positions[4], 1.0, 1.0, 1.0)
+        pir.dibuixar_piramide(pir_vao, pir_shader)
 
         glfw.swap_buffers(window)
 
