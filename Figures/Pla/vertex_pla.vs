@@ -7,9 +7,9 @@ uniform mat4 view;
 uniform mat4 model;
 
 uniform mat4 scale;
-uniform mat4 trans;
+uniform mat4 transf;
 
 void main()
 {
-    gl_Position = scale * proj * view * model * vec4(position, 1.0);
+    gl_Position = transf * scale * proj * view * model * vec4(position, 1.0);
 }

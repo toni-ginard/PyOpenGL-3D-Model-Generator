@@ -9,7 +9,6 @@ from Figures.Piramide.Piramide import *
 from Figures.Pla.Pla import *
 from Buffer.Buffer import *
 from Espai.Espai import Espai
-import math
 
 
 width = 640
@@ -28,12 +27,9 @@ def main():
     Finestra.make_context(window)
     Finestra.color_fons(0.7, 0.7, 0.7)
 
-    # coordenades
-    positions = [(10.0, 2.0, -25.0), (-1.5, 2.0, -2.5), (0.0, 0.0, -50.0), (1.0, 3.0, 0.0), (1.0, -0.5, 1.0)]
-
     # general
     proj = Espai.proj(60.0, width, height, 0.1, 100.0)
-    view = Espai.view(0.0, 0.0, 5.0)  # camera
+    view = Espai.view()  # camera
 
     # CUB
     cub = Cub()
@@ -64,24 +60,22 @@ def main():
     while not glfw.window_should_close(window):
         Finestra.events()
 
-        # pla
-        Espai.definir_ubicacio(pla_shader, view, proj, positions[2], 50.0, 50.0, 1.0)
+        # paràmetres: shader, view proj (camera), ubicació, scale (canvi mida), graus
+
+        # pla fons
+        Espai.definir_ubicacio(pla_shader, view, proj, [0.0, 0.0, -10.0], [10.0, 10.0, 100.0], 0)
         pla.dibuixar_pla(pla_vao, pla_shader)
 
         # cub
-        Espai.definir_ubicacio(cub_shader, view, proj, positions[0], 1.0, 1.0, 1.0)
-        cub.dibuixar_cub(cub_vao, cub_shader)
-
-        # cub 2
-        Espai.definir_ubicacio(cub_shader, view, proj, positions[3], 0.5, 0.5, 0.5)
+        Espai.definir_ubicacio(cub_shader, view, proj, [6.0, 6.0, -1.0], [0.5, 0.5, 0.5], 0)
         cub.dibuixar_cub(cub_vao, cub_shader)
 
         # piramide
-        Espai.definir_ubicacio(pir_shader, view, proj, positions[1], 1.0, 1.0, 1.0)
+        Espai.definir_ubicacio(pir_shader, view, proj, [-1.5, 2.0, -2.5], [1.0, 1.0, 1.0], 0)
         pir.dibuixar_piramide(pir_vao, pir_shader)
 
         # piramide 2
-        Espai.definir_ubicacio(pir_shader, view, proj, positions[4], 1.0, 1.0, 1.0)
+        Espai.definir_ubicacio(pir_shader, view, proj, [1.0, -0.5, 1.0], [1.0, 1.0, 1.0], 0)
         pir.dibuixar_piramide(pir_vao, pir_shader)
 
         glfw.swap_buffers(window)

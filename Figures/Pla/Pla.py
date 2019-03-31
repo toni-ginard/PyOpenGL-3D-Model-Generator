@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import numpy
 from Buffer.Buffer import *
 from Shaders import ShaderLoader
@@ -7,10 +10,14 @@ from Espai.Espai import *
 class Pla:
 
     def __init__(self):
-        self.vertexs = [-0.5, 0.5, 0,   0.5, 0.5, 0,
-                        -0.5, -0.5, 0,  0.5, -0.5, 0]
+        self.vertexs = [-0.5, 0.5, -0.5,   0.5, 0.5, -0.5,
+                        -0.5, -0.5, -0.5,  0.5, -0.5, -0.5,
+                        -0.5, -0.5, 0.5,   0.5, -0.5, 0.5,
+                        -0.5, 0.5, 0.5]
 
-        self.indexs = [0, 1, 2, 1, 2, 3]
+        self.indexs = [0, 1, 2,  1, 2, 3,
+                       2, 3, 4,  3, 4, 5,
+                       0, 3, 4,  0, 4, 6]
 
         self.vertexs = numpy.array(self.vertexs, numpy.float32)
         self.indexs = numpy.array(self.indexs, numpy.uint32)
