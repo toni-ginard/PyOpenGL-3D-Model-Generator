@@ -10,6 +10,7 @@ from Figures.Pla.Pla import *
 from Buffer.Buffer import *
 from Espai.Espai import Espai
 from Positions.Position import *
+import random
 
 
 width = 640
@@ -56,9 +57,13 @@ def main():
                                              "Figures/Pla/fragment_pla.fs")
     pla.instanciar_pla(pla_shader)
 
-    # COORDENADES
+
+    # AUTOMATITZACIÓ
+    ncubs = random.randrange(0, 10, 1)
+    npir = random.randrange(0, 10, 1)
+    poss = Position.array_posicions(5)
     pir_coordenades = Position.get_posicio()
-    print(pir_coordenades)
+    print(poss)
 
     glEnable(GL_DEPTH_TEST)  # profunditat
 

@@ -15,3 +15,10 @@ class Position:
         posicio = [float(x), float(y), float(z)]
         return posicio
 
+    @staticmethod
+    def array_posicions(mida):
+        posicions = list()
+        for i in range(0, mida):
+            posicions[i] = Position.get_posicio()
+
+        return posicions
