@@ -16,6 +16,12 @@ import random
 width = 640
 height = 480
 
+# nº figures
+max_cubs = 15
+min_cubs = 7
+max_pirs = 15
+min_pirs = 7
+
 
 def main():
 
@@ -57,14 +63,15 @@ def main():
                                              "Figures/Pla/fragment_pla.fs")
     pla.instanciar_pla(pla_shader)
 
-
     # AUTOMATITZACIÓ
-    ncubs = random.randrange(0, 10, 1)
-    npir = random.randrange(0, 10, 1)
-    poss = Position.array_posicions(5)
-    pir_coordenades = Position.get_posicio()
-    print(poss)
+    ncubs = random.randrange(min_cubs, max_cubs, 1)
+    npir = random.randrange(min_pirs, max_pirs, 1)
 
+    coord_cubs = Position.array_posicions(ncubs)
+    coord_pirs = Position.array_posicions(npir)
+
+    print 'ncubs:', ncubs
+    print 'npir:', npir
     glEnable(GL_DEPTH_TEST)  # profunditat
 
     while not glfw.window_should_close(window):
@@ -76,13 +83,15 @@ def main():
         # Espai.definir_ubicacio(pla_shader, view, proj, [0.0, 0.0, -10.0], [10.0, 10.0, 1.0], 0)
         # pla.dibuixar_pla(pla_vao, pla_shader)
 
-        # cub
-        Espai.definir_ubicacio(cub_shader, view, proj, [0.0, -10.0, -7.0], [0.5, 0.5, 0.5], 0)
-        cub.dibuixar_cub(cub_vao, cub_shader)
+        # cubs
+        for coord in coord_cubs:
+            Espai.definir_ubicacio(cub_shader, view, proj, coord, [1.0, 1.0, 1.0], 0)
+            cub.dibuixar_cub(cub_vao, cub_shader)
 
-        # piramide
-        Espai.definir_ubicacio(pir_shader, view, proj, pir_coordenades, [1.0, 1.0, 1.0], 0)
-        pir.dibuixar_piramide(pir_vao, pir_shader)
+        # piramides
+        for coord in coord_pirs:
+            Espai.definir_ubicacio(pir_shader, view, proj, coord, [1.0, 1.0, 1.0], 0)
+            pir.dibuixar_piramide(pir_vao, pir_shader)
 
         glfw.swap_buffers(window)
 

@@ -17,8 +17,8 @@ class Position:
 
     @staticmethod
     def array_posicions(mida):
-        posicions = list()
+        posicions = []
         for i in range(0, mida):
-            posicions[i] = Position.get_posicio()
+            posicions.append(Position.get_posicio())
 
         return posicions
