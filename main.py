@@ -18,9 +18,9 @@ height = 480
 
 # nº figures
 max_cubs = 15
-min_cubs = 7
+min_cubs = 10
 max_pirs = 15
-min_pirs = 7
+min_pirs = 10
 
 
 def main():
@@ -64,24 +64,22 @@ def main():
     pla.instanciar_pla(pla_shader)
 
     # AUTOMATITZACIÓ
-    ncubs = random.randrange(min_cubs, max_cubs, 1)
-    npir = random.randrange(min_pirs, max_pirs, 1)
+    ncubs = random.randrange(min_cubs, max_cubs, 1) * 2
+    npir = random.randrange(min_pirs, max_pirs, 1) * 2
 
     coord_cubs = Position.array_posicions(ncubs)
     coord_pirs = Position.array_posicions(npir)
 
-    print 'ncubs:', ncubs
-    print 'npir:', npir
     glEnable(GL_DEPTH_TEST)  # profunditat
 
     while not glfw.window_should_close(window):
         Finestra.events()
 
-        # paràmetres: shader, view proj (camera), ubicació, scale (canvi mida), graus
+        # paràmetres: shader, view proj (camera), ubicació, scale (canvi mida), graus (y)
 
         # pla fons
-        # Espai.definir_ubicacio(pla_shader, view, proj, [0.0, 0.0, -10.0], [10.0, 10.0, 1.0], 0)
-        # pla.dibuixar_pla(pla_vao, pla_shader)
+        Espai.definir_ubicacio(pla_shader, view, proj, [0.0, 0.0, -10.0], [10.0, 10.0, 1.0], 0)
+        pla.dibuixar_pla(pla_vao, pla_shader)
 
         # cubs
         for coord in coord_cubs:
