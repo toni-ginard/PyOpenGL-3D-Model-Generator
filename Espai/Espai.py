@@ -27,7 +27,7 @@ class Espai:
 
     # definir world space de la figura
     @staticmethod
-    def model(posicio, shader):
+    def model(shader, posicio):
         model = pyrr.matrix44.create_from_translation(posicio)
         model_loc = glGetUniformLocation(shader, "model")
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
@@ -37,6 +37,13 @@ class Espai:
         transf = pyrr.matrix44.create_from_y_rotation(math.radians(graus))
         transf_loc = glGetUniformLocation(shader, "transf")
         glUniformMatrix4fv(transf_loc, 1, GL_FALSE, transf)
+
+    @staticmethod
+    def set_color(shader, color):
+        my_color = pyrr.vector3.create(color[0], color[1], color[2], dtype=float)
+        color_loc = glGetUniformLocation(shader, "myColor")
+        glUniform3fv(color_loc, 1, GL_FALSE, my_color)
+        # glUniformMatrix4fv(color_loc, 1, GL_FALSE, color)
 
     @staticmethod
     def view_loc(shader, view):
@@ -57,11 +64,12 @@ class Espai:
         glBindVertexArray(0)
 
     @staticmethod
-    def definir_ubicacio(shader, view, proj, position, scale, graus):
+    def definir_ubicacio(shader, view, proj, position, scale, graus, color):
         glUseProgram(shader)
         Espai.view_loc(shader, view)
         Espai.proj_loc(shader, proj)
-        Espai.model(position, shader)
+        Espai.model(shader, position)
         Espai.scale(shader, scale)
         Espai.transf(shader, graus)
+        Espai.set_color(shader, color)
         glUseProgram(0)

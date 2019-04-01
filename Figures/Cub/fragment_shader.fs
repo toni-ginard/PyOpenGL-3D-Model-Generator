@@ -1,8 +1,9 @@
 #version 330
 
+in vec4 vertexColor;
 out vec4 outColor;
 
 void main()
 {
-    outColor = vec4(0.8, 0.2, 0.2, 1.0);
+    outColor = vertexColor;
 }

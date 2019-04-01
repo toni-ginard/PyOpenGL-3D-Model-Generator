@@ -17,9 +17,9 @@ width = 640
 height = 480
 
 # nº figures
-max_cubs = 15
+max_cubs = 13
 min_cubs = 10
-max_pirs = 15
+max_pirs = 13
 min_pirs = 10
 
 
@@ -37,30 +37,27 @@ def main():
 
     # general
     proj = Espai.proj(60.0, width, height, 0.1, 100.0)
-    view = Espai.view()  # camera
+    camera = Espai.view()
 
     # CUB
     cub = Cub()
     cub_vao = glGenVertexArrays(1)
     glBindVertexArray(cub_vao)
-    cub_shader = ShaderLoader.compile_shader("Figures/Cub/vertex_shader.vs",
-                                             "Figures/Cub/fragment_shader.fs")
+    cub_shader = ShaderLoader.compile_shader("Figures/Cub/vertex_shader.vs", "Figures/Cub/fragment_shader.fs")
     cub.instanciar_cub(cub_shader)
 
     # PIRÀMIDE
     pir = Piramide()
     pir_vao = glGenVertexArrays(1)
     glBindVertexArray(pir_vao)
-    pir_shader = ShaderLoader.compile_shader("Figures/Piramide/vertex_piramide.vs",
-                                             "Figures/Piramide/fragment_piramide.fs")
+    pir_shader = ShaderLoader.compile_shader("Figures/Piramide/vertex_piramide.vs", "Figures/Piramide/fragment_piramide.fs")
     pir.instanciar_piramide(pir_shader)
 
     # PLA
     pla = Pla()
     pla_vao = glGenVertexArrays(1)
     glBindVertexArray(pla_vao)
-    pla_shader = ShaderLoader.compile_shader("Figures/Pla/vertex_pla.vs",
-                                             "Figures/Pla/fragment_pla.fs")
+    pla_shader = ShaderLoader.compile_shader("Figures/Pla/vertex_pla.vs", "Figures/Pla/fragment_pla.fs")
     pla.instanciar_pla(pla_shader)
 
     # AUTOMATITZACIÓ
@@ -75,21 +72,21 @@ def main():
     while not glfw.window_should_close(window):
         Finestra.events()
 
-        # paràmetres: shader, view proj (camera), ubicació, scale (canvi mida), graus (y)
+        # paràmetres: shader, view proj (camera), ubicació, scale (canvi mida), graus(y), color
 
         # pla fons
-        Espai.definir_ubicacio(pla_shader, view, proj, [0.0, 0.0, -10.0], [10.0, 10.0, 1.0], 0)
-        pla.dibuixar_pla(pla_vao, pla_shader)
+        # Espai.definir_ubicacio(pla_shader, camera, proj, [0.0, 0.0, -10.0], [10.0, 10.0, 1.0], 0, 0)
+        # pla.dibuixar_pla(pla_vao, pla_shader)
 
         # cubs
         for coord in coord_cubs:
-            Espai.definir_ubicacio(cub_shader, view, proj, coord, [1.0, 1.0, 1.0], 0)
+            Espai.definir_ubicacio(cub_shader, camera, proj, coord, [1.0, 1.0, 1.0], 0, [0.8, 0.2, 0.2])
             cub.dibuixar_cub(cub_vao, cub_shader)
 
         # piramides
-        for coord in coord_pirs:
-            Espai.definir_ubicacio(pir_shader, view, proj, coord, [1.0, 1.0, 1.0], 0)
-            pir.dibuixar_piramide(pir_vao, pir_shader)
+        # for coord in coord_pirs:
+        #    Espai.definir_ubicacio(pir_shader, camera, proj, coord, [1.0, 1.0, 1.0], 0, 0)
+        #    pir.dibuixar_piramide(pir_vao, pir_shader)
 
         glfw.swap_buffers(window)
 
