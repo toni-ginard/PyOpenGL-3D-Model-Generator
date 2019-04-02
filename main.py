@@ -79,7 +79,7 @@ def main():
         # paràmetres: shader, view proj (camera), ubicació, scale (canvi mida), graus(y), color
 
         # pla fons
-        Espai.definir_ubicacio(pla_shader, camera, proj, [0.0, 0.0, -10.0], [10.0, 10.0, 1.0], 0, [0.4, 0.4, 0.4])
+        Espai.definir_ubicacio(pla_shader, camera, proj, [0.0, 0.0, -10.0], [10.0, 10.0, 10.0], 0, [0.4, 0.4, 0.4])
         pla.dibuixar_pla(pla_vao, pla_shader)
 
         # cubs

@@ -21,7 +21,7 @@ class Espai:
 
     @staticmethod
     def scale(shader, mida):
-        scale = pyrr.matrix44.create_from_scale(pyrr.Vector3([mida[0], mida[1], mida[2]]), dtype=float)
+        scale = pyrr.matrix44.create_from_scale(pyrr.Vector3(mida), dtype=float)
         scale_loc = glGetUniformLocation(shader, "scale")
         glUniformMatrix4fv(scale_loc, 1, GL_FALSE, scale)
 
@@ -67,8 +67,8 @@ class Espai:
         glUseProgram(shader)
         Espai.view_loc(shader, view)
         Espai.proj_loc(shader, proj)
-        Espai.model(shader, position)
         Espai.scale(shader, scale)
+        Espai.model(shader, position)
         Espai.transf(shader, graus)
         Espai.set_color(shader, color)
         glUseProgram(0)
