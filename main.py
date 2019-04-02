@@ -9,7 +9,8 @@ from Figures.Piramide.Piramide import *
 from Figures.Pla.Pla import *
 from Buffer.Buffer import *
 from Espai.Espai import Espai
-from Positions.Position import *
+from Random.Position import Position
+from Random.Color import Color
 import random
 
 
@@ -67,6 +68,9 @@ def main():
     coord_cubs = Position.array_posicions(ncubs)
     coord_pirs = Position.array_posicions(npir)
 
+    cub_color = Color.get_random_color()
+    pir_color = Color.get_random_color()
+
     glEnable(GL_DEPTH_TEST)  # profunditat
 
     while not glfw.window_should_close(window):
@@ -80,12 +84,12 @@ def main():
 
         # cubs
         for coord in coord_cubs:
-            Espai.definir_ubicacio(cub_shader, camera, proj, coord, [1.0, 1.0, 1.0], 0, [0.8, 0.2, 0.2])
+            Espai.definir_ubicacio(cub_shader, camera, proj, coord, [1.0, 1.0, 1.0], 0, cub_color)
             cub.dibuixar_cub(cub_vao, cub_shader)
 
         # piramides
         for coord in coord_pirs:
-            Espai.definir_ubicacio(pir_shader, camera, proj, coord, [1.0, 1.0, 1.0], 0, [0.0, 0.5, 0.8])
+            Espai.definir_ubicacio(pir_shader, camera, proj, coord, [1.0, 1.0, 1.0], 0, pir_color)
             pir.dibuixar_piramide(pir_vao, pir_shader)
 
         glfw.swap_buffers(window)
