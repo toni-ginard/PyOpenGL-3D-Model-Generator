@@ -9,10 +9,10 @@ from Random.Color import Color
 
 class Figura:
 
-    def __init__(self, posicio, scale, color):
-        self.posicio = posicio
-        self.scale = scale
-        self.color = color
+    def __init__(self):
+        self.posicio = Position.get_random_position()
+        self.scale = Scale.get_random_scale()
+        self.color = Color.get_random_color()
 
     def set_posicio(self):
         self.posicio = Position.get_random_position()
@@ -22,3 +22,12 @@ class Figura:
 
     def set_color(self):
         self.color = Color.get_random_color()
+
+    @staticmethod
+    def get_figures(nfigures):
+        figures = []
+        for i in range(nfigures):
+            figura = Figura()
+            figures.append(figura)
+
+        return figures

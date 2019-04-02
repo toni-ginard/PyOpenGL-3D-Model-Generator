@@ -7,6 +7,7 @@ from Render.Render import Render
 from Figures.Cub.Cub import *
 from Figures.Piramide.Piramide import *
 from Figures.Pla.Pla import *
+from Figures.figura import Figura
 from Buffer.Buffer import *
 from Espai.Espai import Espai
 from Random.Position import Position
@@ -59,16 +60,12 @@ def main():
     pla_shader = ShaderLoader.compile_shader("Shaders/vertex_shader.vs", "Shaders/fragment_shader.fs")
     pla.instanciar_pla(pla_shader)
 
-    # posicio, scale, color
-
-
     # AUTOMATITZACIÓ
     ncubs = random.randrange(min_cubs, max_cubs, 1) * 2
-    npir = random.randrange(min_pirs, max_pirs, 1) * 2
-    coord_cubs = Position.array_posicions(ncubs)
-    coord_pirs = Position.array_posicions(npir)
-    cub_color = Color.get_random_color()
-    pir_color = Color.get_random_color()
+    npiramides = random.randrange(min_pirs, max_pirs, 1) * 2
+
+    cubs = Figura.get_figures(ncubs)
+    piramides = Figura.get_figures(npiramides)
 
     glEnable(GL_DEPTH_TEST)  # profunditat
 
@@ -82,13 +79,12 @@ def main():
         # pla.dibuixar_pla(pla_vao, pla_shader)
 
         # cubs
-        for coord in coord_cubs:
-            cub.dibuixar_cub(cub_shader, camera, proj, coord, cub_color, cub_vao)
+        for figura in cubs:
+            cub.dibuixar_cub(cub_shader, camera, proj, figura, cub_vao)
 
         # piramides
-        # for coord in coord_pirs:
-        #     Espai.definir_figura(pir_shader, camera, proj, coord, [1.0, 1.0, 1.0], pir_color)
-        #     pir.dibuixar_piramide(pir_vao, pir_shader)
+        for figura in piramides:
+            pir.dibuixar_piramide(pir_shader, camera, proj, figura, pir_vao)
 
         glfw.swap_buffers(window)
 
