@@ -84,9 +84,9 @@ def main():
             cub.dibuixar_cub(cub_vao, cub_shader)
 
         # piramides
-        # for coord in coord_pirs:
-        #    Espai.definir_ubicacio(pir_shader, camera, proj, coord, [1.0, 1.0, 1.0], 0, 0)
-        #    pir.dibuixar_piramide(pir_vao, pir_shader)
+        for coord in coord_pirs:
+            Espai.definir_ubicacio(pir_shader, camera, proj, coord, [1.0, 1.0, 1.0], 0, [0.0, 0.5, 0.8])
+            pir.dibuixar_piramide(pir_vao, pir_shader)
 
         glfw.swap_buffers(window)
 

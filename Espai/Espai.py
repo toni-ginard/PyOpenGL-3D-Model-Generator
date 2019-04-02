@@ -42,8 +42,7 @@ class Espai:
     def set_color(shader, color):
         my_color = pyrr.vector3.create(color[0], color[1], color[2], dtype=float)
         color_loc = glGetUniformLocation(shader, "myColor")
-        glUniform3fv(color_loc, 1, GL_FALSE, my_color)
-        # glUniformMatrix4fv(color_loc, 1, GL_FALSE, color)
+        glUniform3fv(color_loc, 1, my_color)
 
     @staticmethod
     def view_loc(shader, view):
