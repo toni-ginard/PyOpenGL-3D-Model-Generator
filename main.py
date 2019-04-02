@@ -44,21 +44,21 @@ def main():
     cub = Cub()
     cub_vao = glGenVertexArrays(1)
     glBindVertexArray(cub_vao)
-    cub_shader = ShaderLoader.compile_shader("Shaders/vertex_shader.vs", "Shaders/fragment_shader.fs")
+    cub_shader = ShaderLoader.compile_shader("Shaders/vertex_shader.vs", "Shaders/depth_fragment_shader.fs")
     cub.instanciar_cub(cub_shader)
 
     # PIRÀMIDE
     pir = Piramide()
     pir_vao = glGenVertexArrays(1)
     glBindVertexArray(pir_vao)
-    pir_shader = ShaderLoader.compile_shader("Shaders/vertex_shader.vs", "Shaders/fragment_shader.fs")
+    pir_shader = ShaderLoader.compile_shader("Shaders/vertex_shader.vs", "Shaders/depth_fragment_shader.fs")
     pir.instanciar_piramide(pir_shader)
 
     # PLA
     pla = Pla()
     pla_vao = glGenVertexArrays(1)
     glBindVertexArray(pla_vao)
-    pla_shader = ShaderLoader.compile_shader("Shaders/vertex_shader.vs", "Shaders/fragment_shader.fs")
+    pla_shader = ShaderLoader.compile_shader("Shaders/vertex_shader.vs", "Shaders/depth_fragment_shader.fs")
     pla.instanciar_pla(pla_shader)
 
     # AUTOMATITZACIÓ
@@ -79,7 +79,7 @@ def main():
         # paràmetres: shader, view proj (camera), ubicació, scale (canvi mida), graus(y), color
 
         # pla fons
-        Espai.definir_ubicacio(pla_shader, camera, proj, [0.0, 0.0, -10.0], [10.0, 10.0, 10.0], 0, [0.4, 0.4, 0.4])
+        Espai.definir_ubicacio(pla_shader, camera, proj, [2.0, 3.0, -10.0], [20.0, 18.0, 10.0], 0, [0.4, 0.4, 0.4])
         pla.dibuixar_pla(pla_vao, pla_shader)
 
         # cubs
