@@ -67,6 +67,10 @@ def main():
     cubs = Figura.get_figures(ncubs)
     piramides = Figura.get_figures(npiramides)
 
+    pla_fons = Figura()
+    pla_fons.set_figura([2.0, 3.0, -10.0], [20.0, 18.0, 10.0], [0.4, 0.4, 0.4])
+    print pla_fons.posicio, pla_fons.scale, pla_fons.color
+
     glEnable(GL_DEPTH_TEST)  # profunditat
 
     while not glfw.window_should_close(window):
@@ -75,14 +79,11 @@ def main():
         # paràmetres: shader, view proj (camera), ubicació, scale (canvi mida), color
 
         # pla fons
-        # Espai.definir_figura(pla_shader, camera, proj, [2.0, 3.0, -10.0], [20.0, 18.0, 10.0], [0.4, 0.4, 0.4])
-        # pla.dibuixar_pla(pla_vao, pla_shader)
+        pla.dibuixar_pla(pla_shader, camera, proj, pla_fons, pla_vao)
 
-        # cubs
         for figura in cubs:
             cub.dibuixar_cub(cub_shader, camera, proj, figura, cub_vao)
 
-        # piramides
         for figura in piramides:
             pir.dibuixar_piramide(pir_shader, camera, proj, figura, pir_vao)
 
