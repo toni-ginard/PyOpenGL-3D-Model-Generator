@@ -32,5 +32,6 @@ class Cub:
     def view_proj_cub(shader, view, proj):
         Espai.view_proj(shader, view, proj)
 
-    def dibuixar_cub(self, vao, shader):
+    def dibuixar_cub(self, shader, camera, proj, coord, color, vao):
+        Espai.definir_figura(shader, camera, proj, coord, [1.0, 1.0, 1.0], color)
         Espai.dibuixar_figura(vao, shader, self.indexs)

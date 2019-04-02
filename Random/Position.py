@@ -8,7 +8,7 @@ import random
 class Position:
 
     @staticmethod
-    def get_posicio():
+    def get_random_position():
         z = random.randrange(-10, 0, 1)
         x = random.randrange(z - 5, -z + 5, 1)
         y = random.randrange(z - 5, -z + 5, 1)
@@ -19,6 +19,6 @@ class Position:
     def array_posicions(mida):
         posicions = []
         for i in range(0, mida):
-            posicions.append(Position.get_posicio())
+            posicions.append(Position.get_random_position())
 
         return posicions

@@ -63,12 +63,11 @@ class Espai:
         glBindVertexArray(0)
 
     @staticmethod
-    def definir_ubicacio(shader, view, proj, position, scale, graus, color):
+    def definir_figura(shader, view, proj, position, scale, color):
         glUseProgram(shader)
         Espai.view_loc(shader, view)
         Espai.proj_loc(shader, proj)
         Espai.scale(shader, scale)
         Espai.model(shader, position)
-        Espai.transf(shader, graus)
         Espai.set_color(shader, color)
         glUseProgram(0)
