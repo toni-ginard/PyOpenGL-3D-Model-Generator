@@ -7,5 +7,6 @@ from Model import *
 
 num_models = 3
 
+
 if __name__ == "__main__":
     crear_model(num_models)

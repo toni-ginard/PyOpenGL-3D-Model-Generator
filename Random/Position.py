@@ -10,8 +10,8 @@ class Position:
     @staticmethod
     def get_random_position():
         z = random.randrange(-10, 0, 1)
-        x = random.randrange(z - 5, -z + 5, 1)
-        y = random.randrange(z - 5, -z + 5, 1)
+        x = random.randrange(z - 4, -z + 4, 1)
+        y = random.randrange(z - 4, -z + 4, 1)
         posicio = [float(x), float(y), float(z)]
         return posicio
 
