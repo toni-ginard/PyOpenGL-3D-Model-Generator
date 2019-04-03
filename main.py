@@ -10,8 +10,6 @@ from Figures.Pla.Pla import *
 from Figures.figura import Figura
 from Buffer.Buffer import *
 from Espai.Espai import Espai
-from Random.Position import Position
-from Random.Color import Color
 import random
 
 
@@ -39,7 +37,7 @@ def main():
 
     # general
     proj = Espai.proj(60.0, width, height, 0.1, 100.0)
-    camera = Espai.view()
+    camera = Espai.view([0.0, 0.0, 5.0], [0.0, 0.0, 0.0])
 
     # CUB
     cub = Cub()
@@ -62,35 +60,34 @@ def main():
 
     # AUTOMATITZACIÓ
     ncubs = random.randrange(min_cubs, max_cubs, 1) * 2
-    npiramides = random.randrange(min_pirs, max_pirs, 1) * 2
-
     cubs = Figura.get_figures(ncubs)
+
+    npiramides = random.randrange(min_pirs, max_pirs, 1) * 2
     piramides = Figura.get_figures(npiramides)
 
     pla_fons = Figura()
     pla_fons.set_figura([2.0, 3.0, -10.0], [20.0, 18.0, 10.0], [0.4, 0.4, 0.4])
-    print pla_fons.posicio, pla_fons.scale, pla_fons.color
 
     glEnable(GL_DEPTH_TEST)  # profunditat
 
-    while not glfw.window_should_close(window):
-        Finestra.events()
+    #while not glfw.window_should_close(window):
+    Finestra.events()
 
         # paràmetres: shader, view proj (camera), ubicació, scale (canvi mida), color
 
         # pla fons
-        pla.dibuixar_pla(pla_shader, camera, proj, pla_fons, pla_vao)
+    pla.dibuixar_pla(pla_shader, camera, proj, pla_fons, pla_vao)
 
-        for figura in cubs:
-            cub.dibuixar_cub(cub_shader, camera, proj, figura, cub_vao)
+    for figura in cubs:
+        cub.dibuixar_cub(cub_shader, camera, proj, figura, cub_vao)
 
-        for figura in piramides:
-            pir.dibuixar_piramide(pir_shader, camera, proj, figura, pir_vao)
+    for figura in piramides:
+        pir.dibuixar_piramide(pir_shader, camera, proj, figura, pir_vao)
 
-        glfw.swap_buffers(window)
+    # glfw.swap_buffers(window)
 
     Render.render_to_jpg()
-    glfw.terminate()
+    #glfw.terminate()
 
 
 if __name__ == "__main__":

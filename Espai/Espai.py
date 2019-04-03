@@ -10,10 +10,10 @@ import math
 class Espai:
 
     @staticmethod
-    def view():
-        return pyrr.matrix44.create_look_at(pyrr.Vector3([0.0, 0.0, 5.0]),  # eye
-                                            pyrr.Vector3([0.0, 0.0, 0.0]),  # target
-                                            pyrr.Vector3([0.0, 1.0, 0.0]))  # up
+    def view(eye, target):
+        return pyrr.matrix44.create_look_at(pyrr.Vector3(eye),
+                                            pyrr.Vector3(target),
+                                            pyrr.Vector3([0.0, 1.0, 0.0]))
 
     @staticmethod
     def proj(dist, width, height, front_pane, back_pane):
