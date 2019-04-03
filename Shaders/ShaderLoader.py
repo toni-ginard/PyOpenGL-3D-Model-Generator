@@ -4,10 +4,10 @@
 
 from OpenGL.GL import *
 import OpenGL.GL.shaders
+import os
 
 
 def load_shader(shader_file):
-    shader_source = ""
     with open(shader_file) as f:
         shader_source = f.read()
     f.close()
