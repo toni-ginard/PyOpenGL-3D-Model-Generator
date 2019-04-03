@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-from Capturar_Imatge import *
+from Model import *
+
+
+num_models = 3
 
 if __name__ == "__main__":
-    crear_model()
+    crear_model(num_models)

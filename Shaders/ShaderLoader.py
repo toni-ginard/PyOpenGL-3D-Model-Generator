@@ -4,7 +4,6 @@
 
 from OpenGL.GL import *
 import OpenGL.GL.shaders
-import os
 
 
 def load_shader(shader_file):
