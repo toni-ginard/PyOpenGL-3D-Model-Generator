@@ -33,10 +33,16 @@ class Espai:
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
 
     @staticmethod
-    def transf(shader, graus):
-        transf = pyrr.matrix44.create_from_y_rotation(math.radians(graus))
-        transf_loc = glGetUniformLocation(shader, "transf")
-        glUniformMatrix4fv(transf_loc, 1, GL_FALSE, transf)
+    def rot_x(shader, graus):
+        rot = pyrr.matrix44.create_from_x_rotation(graus)
+        rot_loc = glGetUniformLocation(shader, "rot_x")
+        glUniformMatrix4fv(rot_loc, 1, GL_FALSE, rot)
+
+    @staticmethod
+    def rot_y(shader, graus):
+        rot = pyrr.matrix44.create_from_y_rotation(graus)
+        rot_loc = glGetUniformLocation(shader, "rot_y")
+        glUniformMatrix4fv(rot_loc, 1, GL_FALSE, rot)
 
     @staticmethod
     def set_color(shader, color):

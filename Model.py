@@ -7,7 +7,7 @@ from Render.Render import Render
 from Figures.Cub.Cub import *
 from Figures.Piramide.Piramide import *
 from Figures.Pla.Pla import *
-from Figures.figura import Figura
+from Figures.figure import Figure
 from Buffer.Buffer import *
 from Espai.Espai import Espai
 import random
@@ -25,11 +25,6 @@ max_pirs = 13
 vs = "Shaders/vertex_shader.vs"
 fs = "Shaders/fragment_shader.fs"
 dfs = "Shaders/depth_fragment_shader.fs"
-
-
-def get_atrib_figures(min, max):
-    num_figures = random.randrange(min, max, 1) * 2
-    return Figura.get_figures(num_figures)
 
 
 def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides, nom_img):
@@ -67,8 +62,8 @@ def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides
     pla.instanciar_pla(pla_shader)
 
     # AUTOMATITZACIÓ
-    pla_fons = Figura()
-    pla_fons.set_figura([2.0, 3.0, -10.0], [20.0, 18.0, 10.0], [0.4, 0.4, 0.4])
+    pla_fons = Figure()
+    pla_fons.set_figure([2.0, 3.0, -10.0], [20.0, 18.0, 10.0], [0.4, 0.4, 0.4], 0, 0)
 
     glEnable(GL_DEPTH_TEST)  # profunditat
 
@@ -86,21 +81,27 @@ def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides
     glfw.terminate()
 
 
+def get_random_figures(min, max):
+    nfigures = random.randrange(min, max, 1) * 2
+    return Figure.get_random_atrib_figures(nfigures)
+
+
 def crear_model(num_models):
     center = [0.0, 0.0, 5.0]
     center_target = [0.0, 0.0, 0.0]
 
-    left = [-0.2, 0.0, 5.0]
-    left_target = [-0.2, 0.0, 0.0]
+    left = [-0.05, 0.0, 5.0]
+    left_target = [-0.05, 0.0, 0.0]
 
-    right = [0.2, 0.0, 5.0]
-    right_target = [0.2, 0.0, 0.0]
+    right = [0.05, 0.0, 5.0]
+    right_target = [0.05, 0.0, 0.0]
 
     for i in range(num_models):
         img = "esc" + str(i)
-        cubs = get_atrib_figures(min_cubs, max_cubs)
-        piramides = get_atrib_figures(min_pirs, max_pirs)
+
+        cubs = get_random_figures(min_cubs, max_cubs)
+        piramides = get_random_figures(min_pirs, max_pirs)
 
         capturar_imatge(center, center_target, vs, dfs, cubs, piramides, img + "_d.jpg")
         capturar_imatge(left,   left_target,   vs, fs,  cubs, piramides, img + "_l.jpg")
-        capturar_imatge(right, right_target, vs, fs, cubs, piramides, img + "_r.jpg")
+        capturar_imatge(right,  right_target,  vs, fs,  cubs, piramides, img + "_r.jpg")
