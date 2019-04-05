@@ -17,10 +17,10 @@ width = 640
 height = 480
 
 # nº figures
-min_cubs = 10
-max_cubs = 13
-min_pirs = 10
-max_pirs = 13
+min_cubs = 5
+max_cubs = 10
+min_pirs = 5
+max_pirs = 10
 
 vs = "Shaders/vertex_shader.vs"
 fs = "Shaders/fragment_shader.fs"

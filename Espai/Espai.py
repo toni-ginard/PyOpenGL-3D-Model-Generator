@@ -61,19 +61,21 @@ class Espai:
         glUniformMatrix4fv(proj_loc, 1, GL_FALSE, proj)
 
     @staticmethod
-    def dibuixar_figura(vao, shader, indexs_figura):
+    def dibuixar_figura(vao, shader, indexs_figure):
         glBindVertexArray(vao)
         glUseProgram(shader)
-        glDrawElements(GL_TRIANGLES, indexs_figura.size, GL_UNSIGNED_INT, None)
+        glDrawElements(GL_TRIANGLES, indexs_figure.size, GL_UNSIGNED_INT, None)
         glUseProgram(0)
         glBindVertexArray(0)
 
     @staticmethod
-    def definir_figura(shader, view, proj, figura):
+    def definir_figura(shader, view, proj, figure):
         glUseProgram(shader)
         Espai.view_loc(shader, view)
         Espai.proj_loc(shader, proj)
-        Espai.scale(shader, figura.scale)
-        Espai.model(shader, figura.posicio)
-        Espai.set_color(shader, figura.color)
+        Espai.scale(shader, figure.scale)
+        Espai.rot_x(shader, figure.graus_x)
+        Espai.rot_y(shader, figure.graus_y)
+        Espai.model(shader, figure.posicio)
+        Espai.set_color(shader, figure.color)
         glUseProgram(0)
