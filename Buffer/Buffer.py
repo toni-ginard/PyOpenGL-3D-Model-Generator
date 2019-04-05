@@ -11,17 +11,17 @@ class Buffer:
 
     # copiar a la memoria el buffer de la figura
     @staticmethod
-    def bind_vbo(vertexs_figura):
+    def bind_vbo(vertexs_figure):
         vbo = glGenBuffers(1)
         glBindBuffer(GL_ARRAY_BUFFER, vbo)  # vincular 2 buffers
-        glBufferData(GL_ARRAY_BUFFER, vertexs_figura.nbytes, vertexs_figura, GL_STATIC_DRAW)
+        glBufferData(GL_ARRAY_BUFFER, vertexs_figure.nbytes, vertexs_figure, GL_STATIC_DRAW)
 
     # copiar a la memoria el buffer dels indexs
     @staticmethod
-    def bind_ebo(indexs_figura):
+    def bind_ebo(indexs_figure):
         ebo = glGenBuffers(1)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo)
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexs_figura.nbytes, indexs_figura, GL_STATIC_DRAW)
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexs_figure.nbytes, indexs_figure, GL_STATIC_DRAW)
 
     @staticmethod
     def get_atribut(shader, atribut):

@@ -4,7 +4,6 @@
 
 import pyrr
 from OpenGL.GL import *
-import math
 
 
 class Espai:
@@ -20,26 +19,26 @@ class Espai:
         return pyrr.matrix44.create_perspective_projection_matrix(dist, width / height, front_pane, back_pane)
 
     @staticmethod
-    def scale(shader, mida):
+    def set_scale(shader, mida):
         scale = pyrr.matrix44.create_from_scale(pyrr.Vector3(mida), dtype=float)
         scale_loc = glGetUniformLocation(shader, "scale")
         glUniformMatrix4fv(scale_loc, 1, GL_FALSE, scale)
 
     # definir world space de la figura
     @staticmethod
-    def model(shader, posicio):
+    def set_model(shader, posicio):
         model = pyrr.matrix44.create_from_translation(posicio)
         model_loc = glGetUniformLocation(shader, "model")
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
 
     @staticmethod
-    def rot_x(shader, graus):
+    def set_rot_x(shader, graus):
         rot = pyrr.matrix44.create_from_x_rotation(graus)
         rot_loc = glGetUniformLocation(shader, "rot_x")
         glUniformMatrix4fv(rot_loc, 1, GL_FALSE, rot)
 
     @staticmethod
-    def rot_y(shader, graus):
+    def set_rot_y(shader, graus):
         rot = pyrr.matrix44.create_from_y_rotation(graus)
         rot_loc = glGetUniformLocation(shader, "rot_y")
         glUniformMatrix4fv(rot_loc, 1, GL_FALSE, rot)
@@ -73,9 +72,9 @@ class Espai:
         glUseProgram(shader)
         Espai.view_loc(shader, view)
         Espai.proj_loc(shader, proj)
-        Espai.scale(shader, figure.scale)
-        Espai.rot_x(shader, figure.graus_x)
-        Espai.rot_y(shader, figure.graus_y)
-        Espai.model(shader, figure.posicio)
+        Espai.set_scale(shader, figure.scale)
+        Espai.set_rot_x(shader, figure.graus_x)
+        Espai.set_rot_y(shader, figure.graus_y)
+        Espai.set_model(shader, figure.posicio)
         Espai.set_color(shader, figure.color)
         glUseProgram(0)
