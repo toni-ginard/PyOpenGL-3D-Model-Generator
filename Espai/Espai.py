@@ -4,7 +4,7 @@
 
 import pyrr
 from OpenGL.GL import *
-
+import math
 
 class Espai:
 
@@ -33,13 +33,13 @@ class Espai:
 
     @staticmethod
     def set_rot_x(shader, graus):
-        rot = pyrr.matrix44.create_from_x_rotation(graus)
+        rot = pyrr.matrix44.create_from_x_rotation(math.radians(graus))
         rot_loc = glGetUniformLocation(shader, "rot_x")
         glUniformMatrix4fv(rot_loc, 1, GL_FALSE, rot)
 
     @staticmethod
     def set_rot_y(shader, graus):
-        rot = pyrr.matrix44.create_from_y_rotation(graus)
+        rot = pyrr.matrix44.create_from_y_rotation(math.radians(graus))
         rot_loc = glGetUniformLocation(shader, "rot_y")
         glUniformMatrix4fv(rot_loc, 1, GL_FALSE, rot)
 
