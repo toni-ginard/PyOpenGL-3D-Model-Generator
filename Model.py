@@ -74,8 +74,8 @@ def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides
     for figura in cubs:
         cub.dibuixar_cub(cub_shader, camera, proj, figura, cub_vao)
 
-    for figura in piramides:
-        pir.dibuixar_piramide(pir_shader, camera, proj, figura, pir_vao)
+    # for figura in piramides:
+    #     pir.dibuixar_piramide(pir_shader, camera, proj, figura, pir_vao)
 
     Render.render_to_jpg(nom_img)
     glfw.terminate()

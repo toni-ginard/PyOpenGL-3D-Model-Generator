@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 from OpenGL.GL import *
 import pyrr
 
@@ -30,6 +34,5 @@ class Buffer:
     @staticmethod
     def vertex_attrib(offset):
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12, ctypes.c_void_p(offset))
-        glEnableVertexAttribArray(0)  # 1 vertex son 3 coordenades float = 12 bytes
+        glEnableVertexAttribArray(0)  # 1 vertex són 3 coordenades float = 12 bytes
         # 0 o atribut ("position")
-

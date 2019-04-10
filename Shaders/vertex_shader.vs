@@ -1,8 +1,9 @@
 #version 330
 
 layout (location = 0) in vec3 position;
+layout (location = 1) in vec3 aNormal;
 
-out vec4 vertexColor;
+out vec3 vertexColor;
 uniform vec3 myColor;
 
 uniform mat4 proj;
@@ -14,6 +15,6 @@ uniform mat4 rot_y;
 
 void main()
 {
-    vertexColor = vec4(myColor, 1.0);
+    vertexColor = myColor;
     gl_Position = proj * view * model * rot_y * rot_x * scale * vec4(position, 1.0);
 }
