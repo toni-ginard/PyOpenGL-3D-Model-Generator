@@ -63,7 +63,8 @@ class Espai:
     def dibuixar_figura(vao, shader, indexs_figure):
         glBindVertexArray(vao)
         glUseProgram(shader)
-        glDrawElements(GL_TRIANGLES, indexs_figure.size, GL_UNSIGNED_INT, None)
+        glDrawArrays(GL_TRIANGLES, 0, indexs_figure.size)
+        # glDrawElements(GL_TRIANGLES, indexs_figure.size, GL_UNSIGNED_INT, None)
         glUseProgram(0)
         glBindVertexArray(0)
 
