@@ -35,7 +35,7 @@ class Piramide:
         Buffer.bind_vbo(self.vertexs)
         Buffer.bind_ebo(self.indexs)
         Buffer.get_atribut(shader, "position")
-        Buffer.vertex_attrib(0)
+        Buffer.vertex_attrib(3, 0)
 
     def dibuixar_piramide(self, shader, camera, proj, figura, vao):
         Espai.definir_figura(shader, camera, proj, figura)

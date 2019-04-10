@@ -64,14 +64,13 @@ def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides
     # AUTOMATITZACIÓ
     # instanciar fons
     pla_back = Figure()
-    pla_back.set_figure([1.0, 3.0, -10.0], [16.0, 18.0, 10.0], [0.4, 0.4, 0.4], 0, 0)
     pla_bottom = Figure()
-    pla_bottom.set_figure([1.0, -5.0, -10.0], [16.0, 18.0, 10.0], [0.4, 0.4, 0.4], 90, 0)
     pla_left = Figure()
+    pla_back.set_figure([1.0, 3.0, -10.0], [16.0, 18.0, 10.0], [0.4, 0.4, 0.4], 0, 0)
+    pla_bottom.set_figure([1.0, -5.0, -10.0], [16.0, 18.0, 10.0], [0.4, 0.4, 0.4], 90, 0)
     pla_left.set_figure([-5.0, 3.0, -10.0], [16.0, 18.0, 10.0], [0.4, 0.4, 0.4], 0, 90)
 
     glEnable(GL_DEPTH_TEST)  # profunditat
-
     Finestra.events()
 
     # dibuixar fons
