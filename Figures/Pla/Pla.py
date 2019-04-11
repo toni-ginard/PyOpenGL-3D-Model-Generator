@@ -32,10 +32,6 @@ class Pla:
         Buffer.get_atribut(shader, "aNormal")
         Buffer.vertex_attrib_normals(6, 24)
 
-    @staticmethod
-    def view_proj_pla(shader, view, proj):
-        Espai.view_proj(shader, view, proj)
-
     def dibuixar_pla(self, shader, camera, proj, figura, vao):
         Espai.definir_figura(shader, camera, proj, figura)
         Espai.dibuixar_figura(vao, shader, self.indexs)

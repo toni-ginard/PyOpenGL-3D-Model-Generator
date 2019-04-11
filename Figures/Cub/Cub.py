@@ -67,10 +67,6 @@ class Cub:
         Buffer.get_atribut(shader, "aNormal")
         Buffer.vertex_attrib_normals(6, 144)
 
-    @staticmethod
-    def view_proj_cub(shader, view, proj):
-        Espai.view_proj(shader, view, proj)
-
     def dibuixar_cub(self, shader, camera, proj, figure, vao):
         Espai.definir_figura(shader, camera, proj, figure)
         Espai.dibuixar_figura(vao, shader, self.indexs)
