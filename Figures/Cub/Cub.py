@@ -64,6 +64,8 @@ class Cub:
         Buffer.bind_ebo(self.indexs)
         Buffer.get_atribut(shader, "position")
         Buffer.vertex_attrib(6, 0)
+        Buffer.get_atribut(shader, "aNormal")
+        Buffer.vertex_attrib(6, 144)
 
     @staticmethod
     def view_proj_cub(shader, view, proj):

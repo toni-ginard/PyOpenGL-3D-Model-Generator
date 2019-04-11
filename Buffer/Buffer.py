@@ -36,3 +36,8 @@ class Buffer:
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, nvertexs * 4, ctypes.c_void_p(offset))
         glEnableVertexAttribArray(0)  # 1 vertex són 3 coordenades float = 12 bytes
         # 0 o atribut ("position")    # si tenim normals, 1 vèrtex = 6 coordenades = 24 bytes
+
+    @staticmethod
+    def vertex_attrib_normals(nvertexs, offset):
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, nvertexs * 4, ctypes.c_void_p(offset))
+        glEnableVertexAttribArray(1)
