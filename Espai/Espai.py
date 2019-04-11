@@ -50,6 +50,12 @@ class Espai:
         glUniform3fv(color_loc, 1, my_color)
 
     @staticmethod
+    def set_light(shader):
+        light = pyrr.matrix44.create_from_translation(pyrr.Vector3([2.0, 5.0, 0.0]))
+        light_loc = glGetUniformLocation(shader, "light")
+        glUniformMatrix4fv(light_loc, 1, GL_FALSE, light)
+
+    @staticmethod
     def view_loc(shader, view):
         view_loc = glGetUniformLocation(shader, "view")
         glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
@@ -78,4 +84,5 @@ class Espai:
         Espai.set_rot_y(shader, figure.graus_y)
         Espai.set_model(shader, figure.posicio)
         Espai.set_color(shader, figure.color)
+        Espai.set_light(shader)
         glUseProgram(0)

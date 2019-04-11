@@ -65,7 +65,7 @@ class Cub:
         Buffer.get_atribut(shader, "position")
         Buffer.vertex_attrib(6, 0)
         Buffer.get_atribut(shader, "aNormal")
-        Buffer.vertex_attrib(6, 144)
+        Buffer.vertex_attrib_normals(6, 144)
 
     @staticmethod
     def view_proj_cub(shader, view, proj):

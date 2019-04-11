@@ -74,9 +74,9 @@ def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides
     Finestra.events()
 
     # dibuixar fons
-    # pla.dibuixar_pla(pla_shader, camera, proj, pla_back, pla_vao)
-    # pla.dibuixar_pla(pla_shader, camera, proj, pla_bottom, pla_vao)
-    # pla.dibuixar_pla(pla_shader, camera, proj, pla_left, pla_vao)
+    pla.dibuixar_pla(pla_shader, camera, proj, pla_back, pla_vao)
+    pla.dibuixar_pla(pla_shader, camera, proj, pla_bottom, pla_vao)
+    pla.dibuixar_pla(pla_shader, camera, proj, pla_left, pla_vao)
 
     for figura in cubs:
         cub.dibuixar_cub(cub_shader, camera, proj, figura, cub_vao)

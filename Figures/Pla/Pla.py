@@ -10,13 +10,13 @@ from Espai.Espai import *
 class Pla:
 
     def __init__(self):
-        self.vertexs = [-0.5, -0.5, 0.0,
-                        0.5,  -0.5, 0.0,
-                        -0.5, 0.5, 0.0,
+        self.vertexs = [-0.5, -0.5, 0.0,  0.0, 0.0, 1.0,
+                        0.5,  -0.5, 0.0,  0.0, 0.0, 1.0,
+                        -0.5, 0.5, 0.0,   0.0, 0.0, 1.0,
 
-                        0.5, -0.5, 0.0,
-                        -0.5, 0.5, 0.0,
-                        0.5, 0.5, 0.0]
+                        0.5, -0.5, 0.0,   0.0, 0.0, 1.0,
+                        -0.5, 0.5, 0.0,   0.0, 0.0, 1.0,
+                        0.5, 0.5, 0.0,    0.0, 0.0, 1.0]
 
         self.indexs = [0, 1, 2,
                        3, 4, 5]
@@ -28,7 +28,9 @@ class Pla:
         Buffer.bind_vbo(self.vertexs)
         Buffer.bind_ebo(self.indexs)
         Buffer.get_atribut(shader, "position")
-        Buffer.vertex_attrib(3, 0)
+        Buffer.vertex_attrib(6, 0)
+        Buffer.get_atribut(shader, "aNormal")
+        Buffer.vertex_attrib_normals(6, 24)
 
     @staticmethod
     def view_proj_pla(shader, view, proj):
