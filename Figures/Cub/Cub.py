@@ -63,9 +63,9 @@ class Cub:
         Buffer.bind_vbo(self.vertexs)
         Buffer.bind_ebo(self.indexs)
         Buffer.get_atribut(shader, "position")
-        Buffer.vertex_attrib(6, 0)
+        Buffer.vertex_attrib(6, 0, 0)
         Buffer.get_atribut(shader, "aNormal")
-        Buffer.vertex_attrib_normals(6, 144)
+        Buffer.vertex_attrib(6, 144, 1)
 
     def dibuixar_cub(self, shader, camera, proj, figure, vao):
         Espai.definir_figura(shader, camera, proj, figure)

@@ -13,10 +13,9 @@ void main()
     vec3 ambient = ambientStrength * lightColor; // llum natural
 
     vec3 sunLightIntensity = vec3(0.9f, 0.9f, 0.9f);
-    vec3 sunLightDirection = normalize(vec3(-2.0f, -2.0f, 0.0f));
+    vec3 sunLightDirection = normalize(vec3(-2.0, -2.0, 0.0));
 
     vec3 result = ambient + sunLightIntensity * max(dot(Normal, sunLightDirection), 0.0);
-    // vec3 result = (ambient + diffuse) * vertexColor;
-    // vec3 result = ambient * vertexColor;
+
     outColor = result * vertexColor;
 }
