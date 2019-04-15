@@ -51,7 +51,7 @@ class Espai:
 
     @staticmethod
     def set_light(shader):
-        light = pyrr.matrix44.create_from_translation(pyrr.Vector3([2.0, 5.0, 0.0]))
+        light = pyrr.matrix44.create_from_translation(pyrr.Vector3([1.2, 1.0, 2.0]))
         light_loc = glGetUniformLocation(shader, "light")
         glUniformMatrix4fv(light_loc, 1, GL_FALSE, light)
 

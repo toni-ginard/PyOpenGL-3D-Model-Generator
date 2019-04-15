@@ -21,6 +21,6 @@ void main()
 {
     vertexColor = myColor;
     gl_Position = proj * view * model * rot_y * rot_x * scale * vec4(position, 1.0);
-    FragPos = (view * vec4(aNormal, 0.0f)).xyz; //vec3(model * vec4(position, 1.0));
+    FragPos = vec3(model * vec4(position, 1.0)); // (model * vec4(position, 0.0f)).xyz;
     Normal = aNormal;
 }
