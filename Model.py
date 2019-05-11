@@ -13,8 +13,8 @@ from Espai.Espai import Espai
 import random
 
 
-width = 640
-height = 480
+width = 64
+height = 64
 
 # nº figures
 min_cubs = 5
@@ -27,7 +27,7 @@ fs = "Shaders/fragment_shader.fs"
 dfs = "Shaders/depth_fragment_shader.fs"
 
 
-def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides, nom_img):
+def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides, nom_img, path):
     Finestra.inicialitzar_atributs()
     window = Finestra.instanciar(width, height, "Escena 3D")
 
@@ -84,7 +84,7 @@ def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides
     for figura in piramides:
         pir.dibuixar_piramide(pir_shader, camera, proj, figura, pir_vao)
 
-    Render.render_to_jpg(nom_img)
+    Render.render_to_jpg(nom_img, path)
     glfw.terminate()
 
 
@@ -109,6 +109,11 @@ def crear_model(num_models):
         cubs = get_random_figures(min_cubs, max_cubs)
         piramides = get_random_figures(min_pirs, max_pirs)
 
-        capturar_imatge(center, center_target, vs, dfs, cubs, piramides, img + "_d.jpg")
-        capturar_imatge(left,   left_target,   vs, fs,  cubs, piramides, img + "_l.jpg")
-        capturar_imatge(right,  right_target,  vs, fs,  cubs, piramides, img + "_r.jpg")
+        capturar_imatge(center, center_target, vs, dfs, cubs, piramides, img + "_d.jpg",
+                        "/Users/toniginard/Desktop/TFG/Images/TrainSet/depth")
+        capturar_imatge(center, center_target, vs, fs,  cubs, piramides, img + "_drgb.jpg",
+                        "/Users/toniginard/Desktop/TFG/Images/TrainSet/depthrgb")
+        capturar_imatge(left,   left_target,   vs, fs,  cubs, piramides, img + "_l.jpg",
+                        "/Users/toniginard/Desktop/TFG/Images/TrainSet/left")
+        capturar_imatge(right,  right_target,  vs, fs,  cubs, piramides, img + "_r.jpg",
+                        "/Users/toniginard/Desktop/TFG/Images/TrainSet/right")

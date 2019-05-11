@@ -5,7 +5,7 @@
 from Model import *
 
 
-num_models = 3
+num_models = 10
 
 
 if __name__ == "__main__":
