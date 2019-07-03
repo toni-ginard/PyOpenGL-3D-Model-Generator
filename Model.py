@@ -10,11 +10,13 @@ from Figures.Pla.Pla import *
 from Figures.figure import Figure
 from Buffer.Buffer import *
 from Espai.Espai import Espai
+from Shaders import ShaderLoader
+from Random.Color import Color
 import random
 
 
-width = 64
-height = 64
+width = 256
+height = 256
 
 # nº figures
 min_cubs = 5
@@ -63,12 +65,17 @@ def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides
 
     # AUTOMATITZACIÓ
     # instanciar fons
+    x_rand = random.uniform(-2, 2)
+    y_rand = random.uniform(-2, 1)
     pla_back = Figure()
     pla_bottom = Figure()
     pla_left = Figure()
-    pla_back.set_figure([1.0, 3.0, -10.0], [16.0, 18.0, 10.0], [0.4, 0.4, 0.4], 0, 0)
-    pla_bottom.set_figure([1.0, -5.0, -10.0], [16.0, 18.0, 10.0], [0.4, 0.4, 0.4], 90, 0)
-    pla_left.set_figure([-5.0, 3.0, -10.0], [16.0, 18.0, 10.0], [0.4, 0.4, 0.4], 0, 90)
+    pla_right = Figure()
+    background_color = Color.get_background_color()
+    pla_back.set_figure([-1.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 0)
+    pla_bottom.set_figure([-1.0 + x_rand, -5.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 90, 0)
+    pla_left.set_figure([-7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
+    pla_right.set_figure([7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
 
     glEnable(GL_DEPTH_TEST)  # profunditat
     Finestra.events()
@@ -77,6 +84,7 @@ def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides
     pla.dibuixar_pla(pla_shader, camera, proj, pla_back, pla_vao)
     pla.dibuixar_pla(pla_shader, camera, proj, pla_bottom, pla_vao)
     pla.dibuixar_pla(pla_shader, camera, proj, pla_left, pla_vao)
+    pla.dibuixar_pla(pla_shader, camera, proj, pla_right, pla_vao)
 
     for figura in cubs:
         cub.dibuixar_cub(cub_shader, camera, proj, figura, cub_vao)
@@ -93,7 +101,7 @@ def get_random_figures(min, max):
     return Figure.get_random_atrib_figures(nfigures)
 
 
-def crear_model(num_models):
+def crear_model(path, num_models, img_inicial):
     center = [0.0, 0.0, 5.0]
     center_target = [0.0, 0.0, 0.0]
 
@@ -103,17 +111,14 @@ def crear_model(num_models):
     right = [0.05, 0.0, 5.0]
     right_target = [0.05, 0.0, 0.0]
 
-    for i in range(num_models):
+    for i in range(img_inicial, num_models + img_inicial):
+        print(i)
         img = "esc" + str(i)
 
         cubs = get_random_figures(min_cubs, max_cubs)
         piramides = get_random_figures(min_pirs, max_pirs)
 
-        capturar_imatge(center, center_target, vs, dfs, cubs, piramides, img + "_d.jpg",
-                        "/Users/toniginard/Desktop/TFG/Images/TrainSet/depth")
-        capturar_imatge(center, center_target, vs, fs,  cubs, piramides, img + "_drgb.jpg",
-                        "/Users/toniginard/Desktop/TFG/Images/TrainSet/depthrgb")
-        capturar_imatge(left,   left_target,   vs, fs,  cubs, piramides, img + "_l.jpg",
-                        "/Users/toniginard/Desktop/TFG/Images/TrainSet/left")
-        capturar_imatge(right,  right_target,  vs, fs,  cubs, piramides, img + "_r.jpg",
-                        "/Users/toniginard/Desktop/TFG/Images/TrainSet/right")
+        capturar_imatge(center, center_target, vs, dfs, cubs, piramides, img + "_d.jpg",    path + "/depth")
+        capturar_imatge(center, center_target, vs, fs,  cubs, piramides, img + "_drgb.jpg", path + "/depthrgb")
+        capturar_imatge(left,   left_target,   vs, fs,  cubs, piramides, img + "_l.jpg",    path + "/left")
+        capturar_imatge(right,  right_target,  vs, fs,  cubs, piramides, img + "_r.jpg",    path + "/right")

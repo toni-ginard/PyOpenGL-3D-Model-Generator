@@ -8,7 +8,7 @@ import os
 
 
 def load_shader(shader_file):
-    os.chdir("/USers/toniginard/PycharmProjects/Generador-Models-3D")
+    os.chdir("/Users/toniginard/PycharmProjects/Generador-Models-3D")
     with open(shader_file) as f:
         shader_source = f.read()
     f.close()

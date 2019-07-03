@@ -3,7 +3,6 @@
 
 import numpy
 from Buffer.Buffer import *
-from Shaders import ShaderLoader
 from Espai.Espai import *
 
 
