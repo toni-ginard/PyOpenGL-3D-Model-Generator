@@ -11,28 +11,46 @@ from Random.Rotation import Rotation
 class Figure:
 
     def __init__(self):
-        self.posicio = []
+        self.position = []
         self.scale = []
         self.color = []
-        self.graus_x = 0.0
-        self.graus_y = 0.0
+        self.x_axis = 0.0
+        self.y_axis = 0.0
 
-    def set_figure(self, posicio, scale, color, graus_x, graus_y):
-        self.posicio = posicio
+    def set_figure(self, position, scale, color, x_axis, y_axis):
+        """ Set attribute values.
+
+        :param position: coordinates in world space.
+        :param numpy.array scale: scaling factor.
+        :param numpy.array color: rgb color.
+        :param float x_axis: x axis rotation.
+        :param float y_axis: y axis rotation.
+        """
+        self.position = position
         self.scale = scale
         self.color = color
-        self.graus_x = graus_x
-        self.graus_y = graus_y
+        self.x_axis = x_axis
+        self.y_axis = y_axis
 
     def set_random_figure(self):
-        self.posicio = Position.get_random_position()
+        """ Set random attributes (position, scaling, color, rotation) for a figure.
+
+        :return: figure with attributes on random values.
+        """
+        self.position = Position.get_random_position()
         self.scale = Scale.get_random_scale()
         self.color = Color.get_random_color()
-        self.graus_x = Rotation.get_random_rotation()
-        self.graus_y = Rotation.get_random_rotation()
+        self.x_axis = Rotation.get_random_rotation()
+        self.y_axis = Rotation.get_random_rotation()
 
     @staticmethod
-    def get_random_atrib_figures(nfigures):
+    def get_random_figures(nfigures):
+        """ Returns a number of figures, determined by the parameter nfigures, which attributes are
+        set randomly.
+
+        :param nfigures: number of random figures that sets.
+        :return: numpy.array of figures.
+        """
         figures = []
         for i in range(nfigures):
             figure = Figure()

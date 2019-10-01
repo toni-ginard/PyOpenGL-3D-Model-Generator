@@ -1,6 +1,6 @@
 import numpy
-from Buffer.Buffer import *
-from Espai.Espai import *
+import Buffer.Buffer as Buffer
+import Space.Space as Espai
 
 
 class Piramide:
@@ -33,11 +33,11 @@ class Piramide:
     def instanciar_piramide(self, shader):
         Buffer.bind_vbo(self.vertexs)
         Buffer.bind_ebo(self.indexs)
-        Buffer.get_atribut(shader, "position")
-        Buffer.vertex_attrib(6, 0, 0)
-        Buffer.get_atribut(shader, "aNormal")
-        Buffer.vertex_attrib(6, 48, 1)
+        Buffer.get_attribute(shader, "position")
+        Buffer.vertex_attribute(6, 0, 0)
+        Buffer.get_attribute(shader, "aNormal")
+        Buffer.vertex_attribute(6, 48, 1)
 
     def dibuixar_piramide(self, shader, camera, proj, figure, vao):
-        Espai.definir_figura(shader, camera, proj, figure)
-        Espai.dibuixar_figura(vao, shader, self.indexs)
+        Espai.set_figure_attributes(shader, camera, proj, figure)
+        Espai.draw_figure(shader, self.indexs, vao)

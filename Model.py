@@ -4,52 +4,51 @@
 
 from Finestra.Finestra import *
 from Render.Render import Render
-from Figures.Cub.Cub import *
+from Figures.Cube.Cube import *
 from Figures.Piramide.Piramide import *
 from Figures.Pla.Pla import *
 from Figures.figure import Figure
-from Buffer.Buffer import *
-from Espai.Espai import Espai
 from Shaders import ShaderLoader
 from Random.Color import Color
+import Space.Space as space
 import random
 
 
-width = 256
-height = 256
-
 # nº figures
-min_cubs = 5
-max_cubs = 10
-min_pirs = 5
-max_pirs = 10
+MIN_CUBS = 5
+MAX_CUBS = 10
+MIN_PIRS = 5
+MAX_PIRS = 10
 
 vs = "Shaders/vertex_shader.vs"
 fs = "Shaders/fragment_shader.fs"
 dfs = "Shaders/depth_fragment_shader.fs"
 
 
-def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides, nom_img, path):
-    Finestra.inicialitzar_atributs()
-    window = Finestra.instanciar(width, height, "Escena 3D")
+def capture_image(eye, target, vertex_shader, fragment_shader, cubs, piramides, nom_img, path, img_size):
+    Finestra.initialize_attributes()
+    window = Finestra.instanciar(img_size, img_size, "Escena 3D")
 
     if not window:
         glfw.terminate()
         return
 
     Finestra.make_context(window)
-    Finestra.color_fons(0.7, 0.7, 0.7)
+    Finestra.background_color(0.7, 0.7, 0.7)
 
     # general
-    proj = Espai.proj(60.0, width, height, 0.1, 100.0)
-    camera = Espai.view(eye, target)
+    projection = space.set_projection(degrees=60.0,
+                                      aspect_ratio=img_size/img_size,
+                                      front_pane=0.1,
+                                      back_pane=100.0)
+    camera = space.set_view(eye, target)
 
     # CUB
     cub = Cub()
     cub_vao = glGenVertexArrays(1)
     glBindVertexArray(cub_vao)
     cub_shader = ShaderLoader.compile_shader(vertex_shader, fragment_shader)
-    cub.instanciar_cub(cub_shader)
+    cub.set_cube_attributes(cub_shader)
     # PIRÀMIDE
     pir = Piramide()
     pir_vao = glGenVertexArrays(1)
@@ -80,28 +79,43 @@ def capturar_imatge(eye, target, vertex_shader, fragment_shader, cubs, piramides
     glEnable(GL_DEPTH_TEST)  # profunditat
     Finestra.events()
 
-    # dibuixar fons
-    pla.dibuixar_pla(pla_shader, camera, proj, pla_back, pla_vao)
-    pla.dibuixar_pla(pla_shader, camera, proj, pla_bottom, pla_vao)
-    pla.dibuixar_pla(pla_shader, camera, proj, pla_left, pla_vao)
-    pla.dibuixar_pla(pla_shader, camera, proj, pla_right, pla_vao)
+    # draw background
+    pla.dibuixar_pla(pla_shader, camera, projection, pla_back, pla_vao)
+    pla.dibuixar_pla(pla_shader, camera, projection, pla_bottom, pla_vao)
+    pla.dibuixar_pla(pla_shader, camera, projection, pla_left, pla_vao)
+    pla.dibuixar_pla(pla_shader, camera, projection, pla_right, pla_vao)
 
     for figura in cubs:
-        cub.dibuixar_cub(cub_shader, camera, proj, figura, cub_vao)
+        cub.draw_cube(cub_shader, camera, projection, figura, cub_vao)
 
     for figura in piramides:
-        pir.dibuixar_piramide(pir_shader, camera, proj, figura, pir_vao)
+        pir.dibuixar_piramide(pir_shader, camera, projection, figura, pir_vao)
 
     Render.render_to_jpg(nom_img, path)
     glfw.terminate()
 
 
-def get_random_figures(min, max):
+def get_figures(min, max):
+    """
+    Returns random number of figures, each one with random attributes.
+    :param min: minimum number of figures.
+    :param max: maximum number of figures.
+    :rtype: numpy.array
+    :return: array of figures.
+    """
     nfigures = random.randrange(min, max, 1) * 2
-    return Figure.get_random_atrib_figures(nfigures)
+    return Figure.get_random_figures(nfigures)
 
 
-def crear_model(path, num_models, img_inicial):
+def create_model(path, num_models, img_inicial, img_size):
+    """
+    Sets 3 cameras to capture a stereoscopic image and its corresponding depth image.
+
+    :param path: path to store the images.
+    :param num_models: number of models to create.
+    :param img_inicial: initial model number.
+    :param img_size: resolution of the image.
+    """
     center = [0.0, 0.0, 5.0]
     center_target = [0.0, 0.0, 0.0]
 
@@ -115,10 +129,10 @@ def crear_model(path, num_models, img_inicial):
         print(i)
         img = "esc" + str(i)
 
-        cubs = get_random_figures(min_cubs, max_cubs)
-        piramides = get_random_figures(min_pirs, max_pirs)
+        cubes = get_figures(MIN_CUBS, MAX_CUBS)  # in order to have the exact same figures in each image
+        pyramids = get_figures(MIN_PIRS, MAX_PIRS)
 
-        capturar_imatge(center, center_target, vs, dfs, cubs, piramides, img + "_d.jpg",    path + "/depth")
-        capturar_imatge(center, center_target, vs, fs,  cubs, piramides, img + "_drgb.jpg", path + "/depthrgb")
-        capturar_imatge(left,   left_target,   vs, fs,  cubs, piramides, img + "_l.jpg",    path + "/left")
-        capturar_imatge(right,  right_target,  vs, fs,  cubs, piramides, img + "_r.jpg",    path + "/right")
+        capture_image(center, center_target, vs, dfs, cubes, pyramids, img + "_d.jpg", path + "/depth/depth", img_size)
+        # capture_image(center, center_target, vs, fs,  cubes, pyramids, img + "_drgb.jpg", path + "/depthrgb/depthrgb")
+        capture_image(left,   left_target, vs, fs, cubes, pyramids, img + "_l.jpg", path + "/left/left", img_size)
+        capture_image(right,  right_target, vs, fs, cubes, pyramids, img + "_r.jpg", path + "/right/right", img_size)

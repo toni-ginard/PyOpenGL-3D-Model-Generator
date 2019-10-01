@@ -9,7 +9,6 @@ class Render:
     def render_to_jpg(nom_img, path):
 
         # os.chdir("/Users/toniginard/PycharmProjects/Generador-Models-3D/res/img")
-
         os.chdir(path)
 
         x, y, width, height = glGetDoublev(GL_VIEWPORT)

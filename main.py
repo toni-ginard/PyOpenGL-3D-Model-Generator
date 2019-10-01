@@ -5,11 +5,16 @@
 from Model import *
 
 
-NUM_MODELS = 10
+NUM_MODELS = 100000
 IMG_INICIAL = 0
-MAIN_PATH = "/Users/toniginard/Desktop"
-SET = "/Prova"
+MAIN_PATH = ""
+SET = "/Train"
 
 
 if __name__ == "__main__":
-    crear_model(MAIN_PATH + SET, NUM_MODELS, IMG_INICIAL)
+
+    create_model("/Volumes/TONI32/Prova/Train",
+                 num_models=2,
+                 img_inicial=0,
+                 img_size=32)
+

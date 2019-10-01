@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import numpy
-from Buffer.Buffer import *
-from Espai.Espai import *
+import Buffer.Buffer as Buffer
+import Space.Space as Espai
 
 
 class Pla:
@@ -26,11 +26,11 @@ class Pla:
     def instanciar_pla(self, shader):
         Buffer.bind_vbo(self.vertexs)
         Buffer.bind_ebo(self.indexs)
-        Buffer.get_atribut(shader, "position")
-        Buffer.vertex_attrib(6, 0, 0)
-        Buffer.get_atribut(shader, "aNormal")
-        Buffer.vertex_attrib(6, 24, 1)
+        Buffer.get_attribute(shader, "position")
+        Buffer.vertex_attribute(6, 0, 0)
+        Buffer.get_attribute(shader, "aNormal")
+        Buffer.vertex_attribute(6, 24, 1)
 
     def dibuixar_pla(self, shader, camera, proj, figura, vao):
-        Espai.definir_figura(shader, camera, proj, figura)
-        Espai.dibuixar_figura(vao, shader, self.indexs)
+        Espai.set_figure_attributes(shader, camera, proj, figura)
+        Espai.draw_figure(shader, self.indexs, vao)

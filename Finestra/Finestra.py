@@ -10,7 +10,7 @@ class Finestra:
 
     # coses de glfw
     @staticmethod
-    def inicialitzar_atributs():
+    def initialize_attributes():
         glfw.init()
         glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 4)
         glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
@@ -22,7 +22,7 @@ class Finestra:
         glfw.make_context_current(finestra)
 
     @staticmethod
-    def color_fons(r, g, b):
+    def background_color(r, g, b):
         glClearColor(r, g, b, 1.0)
 
     @staticmethod
