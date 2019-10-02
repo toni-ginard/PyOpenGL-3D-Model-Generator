@@ -6,9 +6,13 @@ from OpenGL.GL import *
 
 
 def bind_vao():
-    """ Bind vertex array object """
+    """ Bind vertex array object
+
+    :return: vertex array object.
+    """
     vao = glGenVertexArrays(1)
     glBindVertexArray(vao)
+    return vao
 
 
 def bind_vbo(vertices_figure):

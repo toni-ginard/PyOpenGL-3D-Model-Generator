@@ -2,8 +2,9 @@ import glfw
 from OpenGL.GL import *
 
 
-def create_window(width, height, titol):
-    return glfw.create_window(width, height, titol, None, None)
+def create_window(width, height, title):
+    """ Create window and its context. """
+    return glfw.create_window(width, height, title, None, None)
 
 
 def initialize_attributes():
@@ -20,12 +21,11 @@ def make_context(window):
     glfw.make_context_current(window)
 
 
-def background_color(r, g, b):
+def set_window_background_color(r, g, b):
     """ Set window background color.
-    :param r:
-    :param g:
-    :param b:
-    :return:
+    :param float r: red value.
+    :param float g: green value.
+    :param float b: blue value.
     """
     glClearColor(r, g, b, 1.0)
 

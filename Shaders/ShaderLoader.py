@@ -8,6 +8,9 @@ import os
 
 
 def load_shader(shader_file):
+    """ Load shaders' files.
+    :param shader_file: file to load.
+    """
     os.chdir("/Users/toniginard/PycharmProjects/Generador-Models-3D")
     with open(shader_file) as f:
         shader_source = f.read()
@@ -16,6 +19,11 @@ def load_shader(shader_file):
 
 
 def compile_shader(vs, fs):
+    """ Create a new program, attach shaders and validate.
+    :param vs: vertext shader file.
+    :param fs: fragment shader file.
+    :return: shader compiled.
+    """
     vertex_shader = load_shader(vs)
     fragment_shader = load_shader(fs)
 

@@ -103,9 +103,9 @@ def view_loc(shader, view):
     glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
 
 
-def projection_loc(shader, proj):
+def projection_loc(shader, projection):
     proj_loc = glGetUniformLocation(shader, "proj")
-    glUniformMatrix4fv(proj_loc, 1, GL_FALSE, proj)
+    glUniformMatrix4fv(proj_loc, 1, GL_FALSE, projection)
 
 
 def draw_figure(shader, figure_indexes, vao):

@@ -5,11 +5,12 @@
 import random
 
 
-class Scale:
-
-    @staticmethod
-    def get_random_scale():
-        scale = []
-        for i in range(3):
-            scale.append(round(random.uniform(0.2, 3.0), 1))
-        return scale
+def get_random_scale():
+    """ Generates random scaling vector.
+    :rtype numpy.array
+    :return: scaling vector.
+    """
+    scale = []
+    for i in range(3):
+        scale.append(round(random.uniform(0.2, 3.0), 1))
+    return scale

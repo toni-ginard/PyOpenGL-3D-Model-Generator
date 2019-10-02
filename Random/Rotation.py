@@ -5,8 +5,8 @@
 import random
 
 
-class Rotation:
-
-    @staticmethod
-    def get_random_rotation():
-        return random.randrange(0, 90, 1)
+def get_random_rotation():
+    """ Generates random rotation, in degrees.
+    :return: axis degrees.
+    """
+    return random.randrange(0, 90, 1)

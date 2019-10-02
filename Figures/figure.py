@@ -4,10 +4,10 @@
 
 import Buffer.Buffer as Buffer
 import Space.Space as Space
-from Random.Position import Position
-from Random.Scale import Scale
-from Random.Color import Color
-from Random.Rotation import Rotation
+import Random.Position as Position
+import Random.Scale as Scale
+import Random.Color as Color
+import Random.Rotation as Rotation
 
 
 class Figure:
@@ -36,6 +36,17 @@ class Figure:
         self.x_axis = x_axis
         self.y_axis = y_axis
 
+    def set_random_figure(self):
+        """ Set random attributes (position, scaling, color, rotation) for a figure.
+
+        :return: figure with attributes on random values.
+        """
+        self.position = Position.get_random_position()
+        self.scale = Scale.get_random_scale()
+        self.color = Color.get_random_color()
+        self.x_axis = Rotation.get_random_rotation()
+        self.y_axis = Rotation.get_random_rotation()
+
     def set_buffer(self, shader, offset):
         """ Set buffer attributes for a figure.
 
@@ -54,31 +65,21 @@ class Figure:
 
         :param shader: figure's shader object.
         :param numpy.array view: camera coordinates.
-        :param nunpy.array projection: perspective projection matrix.
+        :param numpy.array projection: perspective projection matrix.
         :param figure: object to set attributes and to draw.
         :param vao: vertex array object.
         """
         Space.set_figure_attributes(shader, view, projection, figure)
         Space.draw_figure(shader, self.indexes, vao)
 
-    def set_random_figure(self):
-        """ Set random attributes (position, scaling, color, rotation) for a figure.
-
-        :return: figure with attributes on random values.
-        """
-        self.position = Position.get_random_position()
-        self.scale = Scale.get_random_scale()
-        self.color = Color.get_random_color()
-        self.x_axis = Rotation.get_random_rotation()
-        self.y_axis = Rotation.get_random_rotation()
-
     @staticmethod
     def get_random_figures(nfigures):
-        """ Returns a number of figures, determined by the parameter nfigures, which attributes are
-        set randomly.
+        """ Returns a number of figures, determined by the parameter nfigures, which attributes (position,
+        scaling, color and axis rotation) are set randomly.
 
         :param nfigures: number of random figures that sets.
-        :return: numpy.array of figures.
+        :rtype numpy.array
+        :return: array of figures.
         """
         figures = []
         for i in range(nfigures):

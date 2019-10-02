@@ -5,20 +5,13 @@
 import random
 
 
-class Position:
-
-    @staticmethod
-    def get_random_position():
-        z = random.randrange(-10, 0, 1)
-        x = random.randrange(z - 4, -z + 4, 1)
-        y = random.randrange(z - 4, -z + 4, 1)
-        posicio = [float(x), float(y), float(z)]
-        return posicio
-
-    @staticmethod
-    def array_posicions(mida):
-        posicions = []
-        for i in range(0, mida):
-            posicions.append(Position.get_random_position())
-
-        return posicions
+def get_random_position():
+    """ Generates a randomposition in world coordinates.
+    :rtype numpy.array.
+    :return: world coordinates.
+    """
+    z = random.randrange(-10, 0, 1)
+    x = random.randrange(z - 4, -z + 4, 1)
+    y = random.randrange(z - 4, -z + 4, 1)
+    position = [float(x), float(y), float(z)]
+    return position
