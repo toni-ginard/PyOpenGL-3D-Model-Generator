@@ -15,6 +15,6 @@ if __name__ == "__main__":
 
     create_model("/Volumes/TONI32/Prova/Train",
                  num_models=2,
-                 img_inicial=0,
+                 initial_model=0,
                  img_size=32)
 

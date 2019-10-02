@@ -2,15 +2,17 @@
 # -*- coding: utf-8 -*-
 
 
-from Finestra.Finestra import *
-from Render.Render import Render
 from Figures.Cube.Cube import *
-from Figures.Piramide.Piramide import *
-from Figures.Pla.Pla import *
+from Figures.Piramide.Pyramid import *
+from Figures.Pla.Plane import *
 from Figures.figure import Figure
 from Shaders import ShaderLoader
 from Random.Color import Color
-import Space.Space as space
+from OpenGL.GL import *
+import Render.Render as Render
+import Space.Space as Space
+import Window.Window as Window
+import glfw
 import random
 
 
@@ -20,47 +22,43 @@ MAX_CUBS = 10
 MIN_PIRS = 5
 MAX_PIRS = 10
 
-vs = "Shaders/vertex_shader.vs"
-fs = "Shaders/fragment_shader.fs"
-dfs = "Shaders/depth_fragment_shader.fs"
-
 
 def capture_image(eye, target, vertex_shader, fragment_shader, cubs, piramides, nom_img, path, img_size):
-    Finestra.initialize_attributes()
-    window = Finestra.instanciar(img_size, img_size, "Escena 3D")
+    Window.initialize_attributes()
+    window = Window.create_window(img_size, img_size, "Escena 3D")
 
     if not window:
         glfw.terminate()
         return
 
-    Finestra.make_context(window)
-    Finestra.background_color(0.7, 0.7, 0.7)
+    Window.make_context(window)
+    Window.background_color(0.7, 0.7, 0.7)
 
     # general
-    projection = space.set_projection(degrees=60.0,
+    projection = Space.set_projection(degrees=60.0,
                                       aspect_ratio=img_size/img_size,
                                       front_pane=0.1,
                                       back_pane=100.0)
-    camera = space.set_view(eye, target)
+    camera = Space.set_view(eye, target)
 
     # CUB
-    cub = Cub()
+    cub = Cube()
     cub_vao = glGenVertexArrays(1)
     glBindVertexArray(cub_vao)
     cub_shader = ShaderLoader.compile_shader(vertex_shader, fragment_shader)
-    cub.set_cube_attributes(cub_shader)
+    cub.set_buffer(cub_shader, offset=144)
     # PIRÀMIDE
-    pir = Piramide()
+    pir = Pyramid()
     pir_vao = glGenVertexArrays(1)
     glBindVertexArray(pir_vao)
     pir_shader = ShaderLoader.compile_shader(vertex_shader, fragment_shader)
-    pir.instanciar_piramide(pir_shader)
+    pir.set_buffer(pir_shader, offset=48)
     # PLA
-    pla = Pla()
+    pla = Plane()
     pla_vao = glGenVertexArrays(1)
     glBindVertexArray(pla_vao)
     pla_shader = ShaderLoader.compile_shader(vertex_shader, fragment_shader)
-    pla.instanciar_pla(pla_shader)
+    pla.set_buffer(pla_shader, offset=24)
 
     # AUTOMATITZACIÓ
     # instanciar fons
@@ -76,28 +74,28 @@ def capture_image(eye, target, vertex_shader, fragment_shader, cubs, piramides, 
     pla_left.set_figure([-7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
     pla_right.set_figure([7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
 
-    glEnable(GL_DEPTH_TEST)  # profunditat
-    Finestra.events()
+    glEnable(GL_DEPTH_TEST)  # enables depth
+    Window.events()
 
     # draw background
-    pla.dibuixar_pla(pla_shader, camera, projection, pla_back, pla_vao)
-    pla.dibuixar_pla(pla_shader, camera, projection, pla_bottom, pla_vao)
-    pla.dibuixar_pla(pla_shader, camera, projection, pla_left, pla_vao)
-    pla.dibuixar_pla(pla_shader, camera, projection, pla_right, pla_vao)
+    pla.draw(pla_shader, camera, projection, pla_back, pla_vao)
+    pla.draw(pla_shader, camera, projection, pla_bottom, pla_vao)
+    pla.draw(pla_shader, camera, projection, pla_left, pla_vao)
+    pla.draw(pla_shader, camera, projection, pla_right, pla_vao)
 
     for figura in cubs:
-        cub.draw_cube(cub_shader, camera, projection, figura, cub_vao)
+        cub.draw(cub_shader, camera, projection, figura, cub_vao)
 
     for figura in piramides:
-        pir.dibuixar_piramide(pir_shader, camera, projection, figura, pir_vao)
+        pir.draw(pir_shader, camera, projection, figura, pir_vao)
 
     Render.render_to_jpg(nom_img, path)
     glfw.terminate()
 
 
 def get_figures(min, max):
-    """
-    Returns random number of figures, each one with random attributes.
+    """ Returns random number of figures, each one with random attributes.
+
     :param min: minimum number of figures.
     :param max: maximum number of figures.
     :rtype: numpy.array
@@ -107,15 +105,18 @@ def get_figures(min, max):
     return Figure.get_random_figures(nfigures)
 
 
-def create_model(path, num_models, img_inicial, img_size):
-    """
-    Sets 3 cameras to capture a stereoscopic image and its corresponding depth image.
+def create_model(path, num_models, initial_model, img_size):
+    """ Sets up 3 cameras to capture a stereoscopic image and its corresponding depth image.
 
     :param path: path to store the images.
     :param num_models: number of models to create.
-    :param img_inicial: initial model number.
+    :param initial_model: initial model number.
     :param img_size: resolution of the image.
     """
+    vs = "Shaders/vertex_shader.vs"
+    fs = "Shaders/fragment_shader.fs"
+    dfs = "Shaders/depth_fragment_shader.fs"
+
     center = [0.0, 0.0, 5.0]
     center_target = [0.0, 0.0, 0.0]
 
@@ -125,7 +126,7 @@ def create_model(path, num_models, img_inicial, img_size):
     right = [0.05, 0.0, 5.0]
     right_target = [0.05, 0.0, 0.0]
 
-    for i in range(img_inicial, num_models + img_inicial):
+    for i in range(initial_model, num_models + initial_model):
         print(i)
         img = "esc" + str(i)
 

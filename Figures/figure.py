@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
+import Buffer.Buffer as Buffer
+import Space.Space as Space
 from Random.Position import Position
 from Random.Scale import Scale
 from Random.Color import Color
@@ -11,6 +13,8 @@ from Random.Rotation import Rotation
 class Figure:
 
     def __init__(self):
+        self.vertices = []
+        self.indexes = []
         self.position = []
         self.scale = []
         self.color = []
@@ -31,6 +35,31 @@ class Figure:
         self.color = color
         self.x_axis = x_axis
         self.y_axis = y_axis
+
+    def set_buffer(self, shader, offset):
+        """ Set buffer attributes for a figure.
+
+        :param shader: figure's shader object.
+        :param offset: offset for normal vector.
+        """
+        Buffer.bind_vbo(self.vertices)
+        Buffer.bind_ebo(self.indexes)
+        Buffer.get_attribute(shader, "position")
+        Buffer.vertex_attribute(6, 0, 0)
+        Buffer.get_attribute(shader, "aNormal")
+        Buffer.vertex_attribute(6, offset, 1)
+
+    def draw(self, shader, view, projection, figure, vao):
+        """ Draws a figure.
+
+        :param shader: figure's shader object.
+        :param numpy.array view: camera coordinates.
+        :param nunpy.array projection: perspective projection matrix.
+        :param figure: object to set attributes and to draw.
+        :param vao: vertex array object.
+        """
+        Space.set_figure_attributes(shader, view, projection, figure)
+        Space.draw_figure(shader, self.indexes, vao)
 
     def set_random_figure(self):
         """ Set random attributes (position, scaling, color, rotation) for a figure.
