@@ -6,21 +6,15 @@ from Figures.Cube.Cube import *
 from Figures.Pyramid.Pyramid import *
 from Figures.Plane.Plane import *
 from Figures.figure import Figure
+from Figures.Buffer import *
 from Shaders import ShaderLoader
-from Buffer.Buffer import *
 from Window.Window import *
+from Constants import *
 import Random.Color as Color
 import Render.Render as Render
 import Space.Space as Space
 import glfw
 import random
-
-
-# nº figures
-MIN_CUBS = 5
-MAX_CUBS = 10
-MIN_PIRS = 5
-MAX_PIRS = 10
 
 
 def place_background(planes):
@@ -53,19 +47,16 @@ def draw_background(plane, shader, view, projection, planes, vao):
     plane.draw(shader, view, projection, planes[3], vao)
 
 
-def capture_image(eye, target, fragment_shader, cubs, pyramids, nom_img, path, img_size):
+def capture_image(camera, fragment_shader, cubs, pyramids, path, img_size):
     """ Instance window, set all figure's attributes and draw them on the scene.
 
-    :param eye: camera position.
-    :param target: camera's target.
+    :param camera: camera position.
     :param fragment_shader: figure's shader object.
     :param cubs: cubes to draw.
     :param pyramids: pyramids to draw.
-    :param nom_img:
     :param path: path where to store the images.
     :param img_size: image resolution.
     """
-    vertex_shader = "Shaders/vertex_shader.vs"
 
     """ Window initialization phase """
     initialize_attributes()
@@ -83,22 +74,22 @@ def capture_image(eye, target, fragment_shader, cubs, pyramids, nom_img, path, i
                                       aspect_ratio=img_size/img_size,
                                       front_pane=0.1,
                                       back_pane=100.0)
-    camera = Space.set_view(eye, target)
+    camera_view = Space.set_view(camera[0], camera[1])
 
     """ Figure's instance phase """
     cube = Cube()
     cube_vao = bind_vao()
-    cube_shader = ShaderLoader.compile_shader(vertex_shader, fragment_shader)
+    cube_shader = ShaderLoader.compile_shader(fragment_shader)
     cube.set_buffer(cube_shader, offset=144)
 
     pyramid = Pyramid()
     pyramid_vao = bind_vao()
-    pyramid_shader = ShaderLoader.compile_shader(vertex_shader, fragment_shader)
+    pyramid_shader = ShaderLoader.compile_shader(fragment_shader)
     pyramid.set_buffer(pyramid_shader, offset=48)
 
     plane = Plane()
     plane_vao = bind_vao()
-    plane_shader = ShaderLoader.compile_shader(vertex_shader, fragment_shader)
+    plane_shader = ShaderLoader.compile_shader(fragment_shader)
     plane.set_buffer(plane_shader, offset=24)
 
     back_plane = Figure()
@@ -112,15 +103,15 @@ def capture_image(eye, target, fragment_shader, cubs, pyramids, nom_img, path, i
     events()
 
     """ Drawing phase """
-    draw_background(plane, plane_shader, camera, projection, planes, plane_vao)
+    draw_background(plane, plane_shader, camera_view, projection, planes, plane_vao)
 
     for figure in cubs:
-        cube.draw(cube_shader, camera, projection, figure, cube_vao)
+        cube.draw(cube_shader, camera_view, projection, figure, cube_vao)
 
     for figure in pyramids:
-        pyramid.draw(pyramid_shader, camera, projection, figure, pyramid_vao)
+        pyramid.draw(pyramid_shader, camera_view, projection, figure, pyramid_vao)
 
-    Render.render_to_jpg(nom_img, path)
+    Render.render_to_jpg(path)
     glfw.terminate()
 
 
@@ -144,27 +135,13 @@ def create_model(path, num_models, initial_model, img_size):
     :param initial_model: initial model number.
     :param img_size: resolution of the image.
     """
-    vs = "Shaders/vertex_shader.vs"
-    fs = "Shaders/fragment_shader.fs"
-    dfs = "Shaders/depth_fragment_shader.fs"
-
-    center = [0.0, 0.0, 5.0]
-    center_target = [0.0, 0.0, 0.0]
-
-    left = [-0.05, 0.0, 5.0]
-    left_target = [-0.05, 0.0, 0.0]
-
-    right = [0.05, 0.0, 5.0]
-    right_target = [0.05, 0.0, 0.0]
 
     for i in range(initial_model, num_models + initial_model):
         print(i)
-        img = "esc" + str(i)
 
         cubes = get_figures(MIN_CUBS, MAX_CUBS)  # in order to have the exact same figures in each image
         pyramids = get_figures(MIN_PIRS, MAX_PIRS)
 
-        capture_image(center, center_target, dfs, cubes, pyramids, img + "_d.jpg", path + "/depth/depth", img_size)
-        # capture_image(center, center_target, fs,  cubes, pyramids, img + "_drgb.jpg", path + "/depthrgb/depthrgb")
-        capture_image(left,   left_target, fs, cubes, pyramids, img + "_l.jpg", path + "/left/left", img_size)
-        capture_image(right,  right_target, fs, cubes, pyramids, img + "_r.jpg", path + "/right/right", img_size)
+        capture_image(CENTER_CAMERA, DEPTH_FRAGMENT_SHADER, cubes, pyramids, path + DEPTH_PAHT + str(i) + "_d.png", img_size)
+        capture_image(LEFT_CAMERA, FRAGMENT_SHADER, cubes, pyramids, path + LEFT_PATH + str(i) + "_l.jpg", img_size)
+        capture_image(RIGHT_CAMERA, FRAGMENT_SHADER, cubes, pyramids, path + RIGHT_PATH + str(i) + "_r.jpg", img_size)

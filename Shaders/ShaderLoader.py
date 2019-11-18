@@ -3,6 +3,7 @@
 
 
 from OpenGL.GL import *
+from Constants import *
 import OpenGL.GL.shaders
 import os
 
@@ -18,13 +19,13 @@ def load_shader(shader_file):
     return str.encode(shader_source)
 
 
-def compile_shader(vs, fs):
+def compile_shader(fs):
     """ Create a new program, attach shaders and validate.
     :param vs: vertext shader file.
     :param fs: fragment shader file.
     :return: shader compiled.
     """
-    vertex_shader = load_shader(vs)
+    vertex_shader = load_shader(VERTEX_SHADER)
     fragment_shader = load_shader(fs)
 
     shader = OpenGL.GL.shaders.compileProgram(OpenGL.GL.shaders.compileShader(vertex_shader, GL_VERTEX_SHADER),

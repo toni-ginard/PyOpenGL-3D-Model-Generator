@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 
-import Buffer.Buffer as Buffer
 import Space.Space as Space
 import Random.Position as Position
 import Random.Scale as Scale
 import Random.Color as Color
 import Random.Rotation as Rotation
+import Figures.Buffer as Buffer
 
 
 class Figure:
@@ -36,7 +36,7 @@ class Figure:
         self.x_axis = x_axis
         self.y_axis = y_axis
 
-    def set_random_figure(self):
+    def set_figure_random(self):
         """ Set random attributes (position, scaling, color, rotation) for a figure.
 
         :return: figure with attributes on random values.
@@ -55,9 +55,9 @@ class Figure:
         """
         Buffer.bind_vbo(self.vertices)
         Buffer.bind_ebo(self.indexes)
-        Buffer.get_attribute(shader, "position")
+        Buffer.get_attribute_location(shader, "position")
         Buffer.vertex_attribute(6, 0, 0)
-        Buffer.get_attribute(shader, "aNormal")
+        Buffer.get_attribute_location(shader, "aNormal")
         Buffer.vertex_attribute(6, offset, 1)
 
     def draw(self, shader, view, projection, figure, vao):
@@ -72,6 +72,8 @@ class Figure:
         Space.set_figure_attributes(shader, view, projection, figure)
         Space.draw_figure(shader, self.indexes, vao)
 
+    """ ************************************************************************************************************ """
+
     @staticmethod
     def get_random_figures(nfigures):
         """ Returns a number of figures, determined by the parameter nfigures, which attributes (position,
@@ -84,7 +86,7 @@ class Figure:
         figures = []
         for i in range(nfigures):
             figure = Figure()
-            figure.set_random_figure()
+            figure.set_figure_random()
             figures.append(figure)
 
         return figures
