@@ -5,8 +5,8 @@
 from Figures.Cube.Cube import *
 from Figures.Pyramid.Pyramid import *
 from Figures.Plane.Plane import *
-from Figures.figure import Figure
 from Figures.Buffer import *
+from Figures.Background import *
 from Shaders import ShaderLoader
 from Window.Window import *
 from Constants import *
@@ -29,22 +29,6 @@ def place_background(planes):
     planes[1].set_figure([-1.0 + x_rand, -5.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 90, 0)
     planes[2].set_figure([-7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
     planes[3].set_figure([7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
-
-
-def draw_background(plane, shader, view, projection, planes, vao):
-    """ Draws the background for the scene, representing the rooms' walls.
-
-    :param plane: object to draw the planes.
-    :param shader: figure's shader object.
-    :param view: camera.
-    :param projection: projection perspective matrix.
-    :param planes: array of the planes to draw.
-    :param vao: vertex array object.
-    """
-    plane.draw(shader, view, projection, planes[0], vao)
-    plane.draw(shader, view, projection, planes[1], vao)
-    plane.draw(shader, view, projection, planes[2], vao)
-    plane.draw(shader, view, projection, planes[3], vao)
 
 
 def capture_image(camera, fragment_shader, cubs, pyramids, path, img_size):
@@ -92,18 +76,14 @@ def capture_image(camera, fragment_shader, cubs, pyramids, path, img_size):
     plane_shader = ShaderLoader.compile_shader(fragment_shader)
     plane.set_buffer(plane_shader, offset=24)
 
-    back_plane = Figure()
-    bottom_plane = Figure()
-    left_plane = Figure()
-    right_plane = Figure()
-    planes = [back_plane, bottom_plane, left_plane, right_plane]
-    place_background(planes)
+    background = Background()
+    background.set_background()
 
     glEnable(GL_DEPTH_TEST)  # enables depth
     events()
 
     """ Drawing phase """
-    draw_background(plane, plane_shader, camera_view, projection, planes, plane_vao)
+    background.draw_background(plane, plane_shader, camera_view, projection, plane_vao)
 
     for figure in cubs:
         cube.draw(cube_shader, camera_view, projection, figure, cube_vao)

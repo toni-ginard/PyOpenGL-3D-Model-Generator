@@ -3,7 +3,7 @@
 
 
 import numpy
-from Figures.figure import Figure
+from Figures.Figure import Figure
 
 
 class Cube(Figure):
