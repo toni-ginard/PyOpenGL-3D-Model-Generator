@@ -30,16 +30,15 @@ class Background:
         self.left.set_figure([-7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
         self.right.set_figure([7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
 
-    def draw_background(self, plane, shader, view, projection, vao):
+    def draw_background(self, plane, shader, view, vao):
         """ Draws the background for the scene, representing the rooms' walls.
 
         :param plane: object to draw the planes.
         :param shader: figure's shader object.
         :param view: camera.
-        :param projection: projection perspective matrix.
         :param vao: vertex array object.
         """
-        plane.draw(shader, view, projection, self.back, vao)
-        plane.draw(shader, view, projection, self.bottom, vao)
-        plane.draw(shader, view, projection, self.left, vao)
-        plane.draw(shader, view, projection, self.right, vao)
+        plane.draw(shader, view, self.back, vao)
+        plane.draw(shader, view, self.bottom, vao)
+        plane.draw(shader, view, self.left, vao)
+        plane.draw(shader, view, self.right, vao)

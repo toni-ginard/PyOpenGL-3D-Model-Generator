@@ -7,6 +7,8 @@ from Figures.Pyramid.Pyramid import *
 from Figures.Plane.Plane import *
 from Figures.Buffer import *
 from Figures.Background import *
+from Figures.Projection import Projection
+from Figures.View import View
 from Shaders import ShaderLoader
 from Window.Window import *
 from Constants import *
@@ -53,13 +55,6 @@ def capture_image(camera, fragment_shader, cubs, pyramids, path, img_size):
     make_context(window)
     set_window_background_color(0.7, 0.7, 0.7)
 
-    # general
-    projection = Space.set_projection(degrees=60.0,
-                                      aspect_ratio=img_size/img_size,
-                                      front_pane=0.1,
-                                      back_pane=100.0)
-    camera_view = Space.set_view(camera[0], camera[1])
-
     """ Figure's instance phase """
     cube = Cube()
     cube_vao = bind_vao()
@@ -83,13 +78,13 @@ def capture_image(camera, fragment_shader, cubs, pyramids, path, img_size):
     events()
 
     """ Drawing phase """
-    background.draw_background(plane, plane_shader, camera_view, projection, plane_vao)
+    background.draw_background(plane, plane_shader, camera, plane_vao)
 
     for figure in cubs:
-        cube.draw(cube_shader, camera_view, projection, figure, cube_vao)
+        cube.draw(cube_shader, camera, figure, cube_vao)
 
     for figure in pyramids:
-        pyramid.draw(pyramid_shader, camera_view, projection, figure, pyramid_vao)
+        pyramid.draw(pyramid_shader, camera, figure, pyramid_vao)
 
     Render.render_to_jpg(path)
     glfw.terminate()

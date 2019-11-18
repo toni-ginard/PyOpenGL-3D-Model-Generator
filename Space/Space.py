@@ -7,30 +7,24 @@ import math
 from OpenGL.GL import *
 
 
-def set_view(eye, target):
+def set_view(shader, view):
     """ Set camera position defining eye and target position (direction).
 
-    :param numpy.array eye: camera position in world coordinates.
-    :param numpy.array target: target position in world coordinates.
-    :rtype: numpy.array
-    :return: matrix that can be used as View Matrix.
+    :param shader: figure shader object.
+    :param view: camera view.
     """
-    return pyrr.matrix44.create_look_at(pyrr.Vector3(eye),
-                                        pyrr.Vector3(target),
+    view = pyrr.matrix44.create_look_at(pyrr.Vector3(view[0]),
+                                        pyrr.Vector3(view[1]),
                                         pyrr.Vector3([0.0, 1.0, 0.0]))
+    view_loc = glGetUniformLocation(shader, "view")
+    glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
 
 
-def set_projection(degrees, aspect_ratio, front_pane, back_pane):
-    """ Set perspective projection matrix.
-
-    :param float degrees: field of view in y direction in degrees.
-    :param float aspect_ratio: aspect ratio of the view (width / height).
-    :param float front_pane: distance from the viewer to the near plane.
-    :param float back_pane: distance from the viewer to the far plane.
-    :rtype: numpy.array
-    :return: projection matrix representing the specified perspective.
-    """
-    return pyrr.matrix44.create_perspective_projection_matrix(degrees, aspect_ratio, front_pane, back_pane)
+def set_projection(shader):
+    """ Set perspective projection matrix. """
+    projection = pyrr.matrix44.create_perspective_projection_matrix(60.0, 1, 0.1, 100.0)
+    proj_loc = glGetUniformLocation(shader, "proj")
+    glUniformMatrix4fv(proj_loc, 1, GL_FALSE, projection)
 
 
 def set_scale(shader, size):
@@ -42,17 +36,6 @@ def set_scale(shader, size):
     scale = pyrr.matrix44.create_from_scale(pyrr.Vector3(size), dtype=float)
     scale_loc = glGetUniformLocation(shader, "scale")
     glUniformMatrix4fv(scale_loc, 1, GL_FALSE, scale)
-
-
-def set_model(shader, position):
-    """ Set figure's world space coordinates.
-
-    :param shader: figure shader object.
-    :param numpy.array position: world coordinates.
-    """
-    model = pyrr.matrix44.create_from_translation(position)
-    model_loc = glGetUniformLocation(shader, "model")
-    glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
 
 
 def set_rot_x(shader, degrees):
@@ -75,6 +58,17 @@ def set_rot_y(shader, degrees):
     rotation = pyrr.matrix44.create_from_y_rotation(math.radians(degrees))
     rotation_loc = glGetUniformLocation(shader, "rot_y")
     glUniformMatrix4fv(rotation_loc, 1, GL_FALSE, rotation)
+
+
+def set_model(shader, position):
+    """ Set figure's world space coordinates.
+
+    :param shader: figure shader object.
+    :param numpy.array position: world coordinates.
+    """
+    model = pyrr.matrix44.create_from_translation(position)
+    model_loc = glGetUniformLocation(shader, "model")
+    glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
 
 
 def set_color(shader, color):
@@ -103,11 +97,6 @@ def view_loc(shader, view):
     glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
 
 
-def projection_loc(shader, projection):
-    proj_loc = glGetUniformLocation(shader, "proj")
-    glUniformMatrix4fv(proj_loc, 1, GL_FALSE, projection)
-
-
 def draw_figure(shader, figure_indexes, vao):
     """
     Draws a figure from its shader object, the coordinates of its vertices
@@ -125,19 +114,18 @@ def draw_figure(shader, figure_indexes, vao):
     glBindVertexArray(0)
 
 
-def set_figure_attributes(shader, view, projection, figure):
+def set_figure_attributes(shader, view, figure):
     """
     Sets all the attributes of a figure inside the screen space,
     as well as its view and projection matrices. Prepares the figure to be drawn.
 
     :param shader: figure shader object.
     :param view: view matrix (camera position).
-    :param projection: projection matrix.
     :param figure: object containing the figure's attributes.
     """
     glUseProgram(shader)
-    view_loc(shader, view)
-    projection_loc(shader, projection)
+    set_view(shader, view)
+    set_projection(shader)
     set_scale(shader, figure.scale)
     set_rot_x(shader, figure.x_axis)
     set_rot_y(shader, figure.y_axis)

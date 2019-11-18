@@ -8,6 +8,9 @@ MAX_CUBS = 10
 MIN_PIRS = 5
 MAX_PIRS = 10
 
+#
+IMG_SIZE = 64
+
 # PATHS
 DEPTH_PAHT = "/depth/depth/"
 LEFT_PATH = "/left/left/"

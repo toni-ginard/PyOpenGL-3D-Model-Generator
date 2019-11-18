@@ -12,14 +12,17 @@ import Figures.Buffer as Buffer
 
 class Figure:
 
+    vertices = []
+    indexes = []
+
     def __init__(self):
         self.vertices = []
         self.indexes = []
-        self.position = []
         self.scale = []
-        self.color = []
         self.x_axis = 0.0
         self.y_axis = 0.0
+        self.position = []
+        self.color = []
 
     def set_figure(self, position, scale, color, x_axis, y_axis):
         """ Set attribute values.
@@ -60,16 +63,15 @@ class Figure:
         Buffer.get_attribute_location(shader, "aNormal")
         Buffer.vertex_attribute(6, offset, 1)
 
-    def draw(self, shader, view, projection, figure, vao):
+    def draw(self, shader, view, figure, vao):
         """ Draws a figure.
 
         :param shader: figure's shader object.
         :param numpy.array view: camera coordinates.
-        :param numpy.array projection: perspective projection matrix.
         :param figure: object to set attributes and to draw.
         :param vao: vertex array object.
         """
-        Space.set_figure_attributes(shader, view, projection, figure)
+        Space.set_figure_attributes(shader, view, figure)
         Space.draw_figure(shader, self.indexes, vao)
 
     """ ************************************************************************************************************ """
