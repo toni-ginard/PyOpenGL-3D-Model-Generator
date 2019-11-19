@@ -25,13 +25,29 @@ class Background:
         y_rand = random.uniform(-2, 1)
         background_color = get_background_color()
 
-        self.back.set_figure([-1.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 0)
-        self.bottom.set_figure([-1.0 + x_rand, -5.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 90, 0)
-        self.left.set_figure([-7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
-        self.right.set_figure([7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
+        self.back = Figure(scale=[-1.0 + x_rand, 3.0 + y_rand, -10.0],
+                           x_axis=0,
+                           y_axis=0,
+                           position=[16.0, 18.0, 10.0],
+                           color=background_color)
+        self.bottom = Figure(scale=[-1.0 + x_rand, -5.0 + y_rand, -10.0],
+                             x_axis=90,
+                             y_axis=0,
+                             position=[16.0, 18.0, 10.0],
+                             color=background_color)
+        self.left = Figure(scale=[-7.0 + x_rand, 3.0 + y_rand, -10.0],
+                           x_axis=0,
+                           y_axis=90,
+                           position=[16.0, 18.0, 10.0],
+                           color=background_color)
+        self.right = Figure(scale=[7.0 + x_rand, 3.0 + y_rand, -10.0],
+                            x_axis=0,
+                            y_axis=90,
+                            position=[16.0, 18.0, 10.0],
+                            color=background_color)
 
     def draw_background(self, plane, shader, view, vao):
-        """ Draws the background for the scene, representing the rooms' walls.
+        """ Draws the background for the scene, representing room's walls.
 
         :param plane: object to draw the planes.
         :param shader: figure's shader object.

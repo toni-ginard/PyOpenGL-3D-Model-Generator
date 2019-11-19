@@ -37,12 +37,12 @@ def get_attribute_location(shader, attribute):
     return glGetAttribLocation(shader, attribute)
 
 
-def vertex_attribute(nvertices, offset, param):
+def vertex_attribute(num_vertices, offset, param):
     """
-    :param nvertices: number of vertices to draw.
+    :param num_vertices: number of vertices to draw.
     :param offset: offset to place on vertices position.
     :param param: param to enable its attribute.
     """
-    glVertexAttribPointer(param, 3, GL_FLOAT, GL_FALSE, nvertices * 4, ctypes.c_void_p(offset))
+    glVertexAttribPointer(param, 3, GL_FLOAT, GL_FALSE, num_vertices * 4, ctypes.c_void_p(offset))
     glEnableVertexAttribArray(param)  # 1 vertex == 3 coordinates, float = 12 bytes
     # 0 o atribut ("position")    # si tenim normals, 1 vèrtex = 6 coordenades = 24 byte

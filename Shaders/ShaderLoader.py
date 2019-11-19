@@ -3,7 +3,7 @@
 
 
 from OpenGL.GL import *
-from Constants import *
+from Constants.Constants import *
 import OpenGL.GL.shaders
 import os
 

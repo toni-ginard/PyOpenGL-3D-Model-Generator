@@ -2,53 +2,32 @@
 # -*- coding: utf-8 -*-
 
 
-import Space.Space as Space
+import Figures.Buffer as Buffer
 import Random.Position as Position
 import Random.Scale as Scale
 import Random.Color as Color
 import Random.Rotation as Rotation
-import Figures.Buffer as Buffer
+from Space.Space import *
 
 
 class Figure:
 
     vertices = []
     indexes = []
+    scale = []
+    x_axis = 0.0
+    y_axis = 0.0
+    position = []
+    color = []
 
-    def __init__(self):
-        self.vertices = []
-        self.indexes = []
-        self.scale = []
-        self.x_axis = 0.0
-        self.y_axis = 0.0
-        self.position = []
-        self.color = []
-
-    def set_figure(self, position, scale, color, x_axis, y_axis):
-        """ Set attribute values.
-
-        :param position: coordinates in world space.
-        :param numpy.array scale: scaling factor.
-        :param numpy.array color: rgb color.
-        :param float x_axis: x axis rotation.
-        :param float y_axis: y axis rotation.
-        """
-        self.position = position
+    def __init__(self, vertices=None, indexes=None, scale=None, x_axis=0.0, y_axis=0.0, position=None, color=None):
+        self.vertices = vertices
+        self.indexes = indexes
         self.scale = scale
-        self.color = color
         self.x_axis = x_axis
         self.y_axis = y_axis
-
-    def set_figure_random(self):
-        """ Set random attributes (position, scaling, color, rotation) for a figure.
-
-        :return: figure with attributes on random values.
-        """
-        self.position = Position.get_random_position()
-        self.scale = Scale.get_random_scale()
-        self.color = Color.get_random_color()
-        self.x_axis = Rotation.get_random_rotation()
-        self.y_axis = Rotation.get_random_rotation()
+        self.position = position
+        self.color = color
 
     def set_buffer(self, shader, offset):
         """ Set buffer attributes for a figure.
@@ -71,22 +50,31 @@ class Figure:
         :param figure: object to set attributes and to draw.
         :param vao: vertex array object.
         """
-        Space.set_figure_attributes(shader, view, figure)
-        Space.draw_figure(shader, self.indexes, vao)
+        set_figure_attribute_matrices(shader, view, figure)
+        draw_figure(shader, self.indexes, vao)
 
-    """ ************************************************************************************************************ """
+    def set_figure_random(self):
+        """ Set random attributes (scaling, rotation, position, color) for a figure.
+
+        :return: figure with attributes on random values.
+        """
+        self.scale = Scale.get_random_scale()
+        self.x_axis = Rotation.get_random_rotation()
+        self.y_axis = Rotation.get_random_rotation()
+        self.position = Position.get_random_position()
+        self.color = Color.get_random_color()
 
     @staticmethod
-    def get_random_figures(nfigures):
-        """ Returns a number of figures, determined by the parameter nfigures, which attributes (position,
+    def get_random_figures(num_figures):
+        """ Returns a number of figures, determined by the parameter num_figures, which attributes (position,
         scaling, color and axis rotation) are set randomly.
 
-        :param nfigures: number of random figures that sets.
+        :param num_figures: number of random figures that sets.
         :rtype numpy.array
         :return: array of figures.
         """
         figures = []
-        for i in range(nfigures):
+        for i in range(num_figures):
             figure = Figure()
             figure.set_figure_random()
             figures.append(figure)

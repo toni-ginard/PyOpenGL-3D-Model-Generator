@@ -5,48 +5,29 @@
 from Figures.Cube.Cube import *
 from Figures.Pyramid.Pyramid import *
 from Figures.Plane.Plane import *
-from Figures.Buffer import *
+import Figures.Buffer as Buffer
 from Figures.Background import *
-from Figures.Projection import Projection
-from Figures.View import View
 from Shaders import ShaderLoader
 from Window.Window import *
-from Constants import *
-import Random.Color as Color
+from Constants.Constants import *
+from Constants.Constants_Main import *
 import Render.Render as Render
-import Space.Space as Space
 import glfw
-import random
 
 
-def place_background(planes):
-    """ Set background position and color.
-
-    :param planes: objects to set.
-    """
-    x_rand = random.uniform(-2, 2)
-    y_rand = random.uniform(-2, 1)
-    background_color = Color.get_background_color()
-    planes[0].set_figure([-1.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 0)
-    planes[1].set_figure([-1.0 + x_rand, -5.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 90, 0)
-    planes[2].set_figure([-7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
-    planes[3].set_figure([7.0 + x_rand, 3.0 + y_rand, -10.0], [16.0, 18.0, 10.0], background_color, 0, 90)
-
-
-def capture_image(camera, fragment_shader, cubs, pyramids, path, img_size):
+def capture_scene(camera, fragment_shader, cubs, pyramids, path):
     """ Instance window, set all figure's attributes and draw them on the scene.
 
     :param camera: camera position.
     :param fragment_shader: figure's shader object.
     :param cubs: cubes to draw.
     :param pyramids: pyramids to draw.
-    :param path: path where to store the images.
-    :param img_size: image resolution.
+    :param path: specific path where to store the images.
     """
 
     """ Window initialization phase """
     initialize_attributes()
-    window = create_window(img_size, img_size, "3D Scene")
+    window = create_window(IMG_SIZE, IMG_SIZE, "3D Scene")
 
     if not window:
         glfw.terminate()
@@ -57,17 +38,17 @@ def capture_image(camera, fragment_shader, cubs, pyramids, path, img_size):
 
     """ Figure's instance phase """
     cube = Cube()
-    cube_vao = bind_vao()
+    cube_vao = Buffer.bind_vao()
     cube_shader = ShaderLoader.compile_shader(fragment_shader)
     cube.set_buffer(cube_shader, offset=144)
 
     pyramid = Pyramid()
-    pyramid_vao = bind_vao()
+    pyramid_vao = Buffer.bind_vao()
     pyramid_shader = ShaderLoader.compile_shader(fragment_shader)
     pyramid.set_buffer(pyramid_shader, offset=48)
 
     plane = Plane()
-    plane_vao = bind_vao()
+    plane_vao = Buffer.bind_vao()
     plane_shader = ShaderLoader.compile_shader(fragment_shader)
     plane.set_buffer(plane_shader, offset=24)
 
@@ -80,43 +61,25 @@ def capture_image(camera, fragment_shader, cubs, pyramids, path, img_size):
     """ Drawing phase """
     background.draw_background(plane, plane_shader, camera, plane_vao)
 
-    for figure in cubs:
-        cube.draw(cube_shader, camera, figure, cube_vao)
+    for attributes in cubs:
+        cube.draw(cube_shader, camera, attributes, cube_vao)
 
-    for figure in pyramids:
-        pyramid.draw(pyramid_shader, camera, figure, pyramid_vao)
+    for attributes in pyramids:
+        pyramid.draw(pyramid_shader, camera, attributes, pyramid_vao)
 
-    Render.render_to_jpg(path)
+    Render.render_to_jpg(MAIN_PATH + path)
     glfw.terminate()
 
 
-def get_figures(min, max):
-    """ Returns random number of figures, each one with random attributes.
+def generate_models():
+    """ Sets up 3 cameras to capture a stereoscopic image and its corresponding depth image. """
 
-    :param min: minimum number of figures.
-    :param max: maximum number of figures.
-    :rtype: numpy.array
-    :return: array of figures.
-    """
-    nfigures = random.randrange(min, max, 1) * 2
-    return Figure.get_random_figures(nfigures)
-
-
-def create_model(path, num_models, initial_model, img_size):
-    """ Sets up 3 cameras to capture a stereoscopic image and its corresponding depth image.
-
-    :param path: path to store the images.
-    :param num_models: number of models to create.
-    :param initial_model: initial model number.
-    :param img_size: resolution of the image.
-    """
-
-    for i in range(initial_model, num_models + initial_model):
+    for i in range(INITIAL_SCENE, NUM_SCENES + INITIAL_SCENE):
         print(i)
 
-        cubes = get_figures(MIN_CUBS, MAX_CUBS)  # in order to have the exact same figures in each image
-        pyramids = get_figures(MIN_PIRS, MAX_PIRS)
+        cubes = Figure.get_random_figures(NUM_CUBES)  # in order to have the exact same figures in each image
+        pyramids = Figure.get_random_figures(NUM_PYRAMIDS)
 
-        capture_image(CENTER_CAMERA, DEPTH_FRAGMENT_SHADER, cubes, pyramids, path + DEPTH_PAHT + str(i) + "_d.png", img_size)
-        capture_image(LEFT_CAMERA, FRAGMENT_SHADER, cubes, pyramids, path + LEFT_PATH + str(i) + "_l.jpg", img_size)
-        capture_image(RIGHT_CAMERA, FRAGMENT_SHADER, cubes, pyramids, path + RIGHT_PATH + str(i) + "_r.jpg", img_size)
+        capture_scene(CENTER_CAMERA, DEPTH_FRAGMENT_SHADER, cubes, pyramids, "/depth/depth/" + str(i) + "_d.png")
+        capture_scene(LEFT_CAMERA,   FRAGMENT_SHADER,       cubes, pyramids, "/left/left/" + str(i) + "_l.jpg")
+        capture_scene(RIGHT_CAMERA,  FRAGMENT_SHADER,       cubes, pyramids, "/right/right/" + str(i) + "_r.jpg")

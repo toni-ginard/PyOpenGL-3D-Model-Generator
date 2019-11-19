@@ -3,18 +3,8 @@
 
 
 # nº figures
-MIN_CUBS = 5
-MAX_CUBS = 10
-MIN_PIRS = 5
-MAX_PIRS = 10
-
-#
-IMG_SIZE = 64
-
-# PATHS
-DEPTH_PAHT = "/depth/depth/"
-LEFT_PATH = "/left/left/"
-RIGHT_PATH = "/right/right/"
+NUM_CUBES = 15
+NUM_PYRAMIDS = 15
 
 # SHADERS
 VERTEX_SHADER = "Shaders/vertex_shader.vs"
