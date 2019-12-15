@@ -15,12 +15,12 @@ import Render.Render as Render
 import glfw
 
 
-def capture_scene(camera, fragment_shader, cubs, pyramids, path):
+def capture_scene(camera, fragment_shader, cubes, pyramids, path):
     """ Instance window, set all figure's attributes and draw them on the scene.
 
     :param camera: camera position.
     :param fragment_shader: figure's shader object.
-    :param cubs: cubes to draw.
+    :param cubes: cubes to draw.
     :param pyramids: pyramids to draw.
     :param path: specific path where to store the images.
     """
@@ -61,25 +61,26 @@ def capture_scene(camera, fragment_shader, cubs, pyramids, path):
     """ Drawing phase """
     background.draw_background(plane, plane_shader, camera, plane_vao)
 
-    for attributes in cubs:
+    for attributes in cubes:
         cube.draw(cube_shader, camera, attributes, cube_vao)
 
     for attributes in pyramids:
         pyramid.draw(pyramid_shader, camera, attributes, pyramid_vao)
 
+    """ Render phase """
     Render.render_to_jpg(MAIN_PATH + path)
     glfw.terminate()
 
 
 def generate_models():
-    """ Sets up 3 cameras to capture a stereoscopic image and its corresponding depth image. """
-
+    """ Generates figure's attributes, sets up the scenes and captures a stereoscopic image and its corresponding
+    depth image. """
     for i in range(INITIAL_SCENE, NUM_SCENES + INITIAL_SCENE):
         print(i)
 
         cubes = Figure.get_random_figures(NUM_CUBES)  # in order to have the exact same figures in each image
         pyramids = Figure.get_random_figures(NUM_PYRAMIDS)
 
-        capture_scene(CENTER_CAMERA, DEPTH_FRAGMENT_SHADER, cubes, pyramids, "/depth/depth/" + str(i) + "_d.png")
+        capture_scene(CENTER_CAMERA, DEPTH_FRAGMENT_SHADER, cubes, pyramids, "/depth/depth/" + str(i) + "_d.jpg")
         capture_scene(LEFT_CAMERA,   FRAGMENT_SHADER,       cubes, pyramids, "/left/left/" + str(i) + "_l.jpg")
         capture_scene(RIGHT_CAMERA,  FRAGMENT_SHADER,       cubes, pyramids, "/right/right/" + str(i) + "_r.jpg")

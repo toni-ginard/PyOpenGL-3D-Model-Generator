@@ -3,6 +3,6 @@
 
 
 MAIN_PATH = "/Users/toniginard/Desktop/Img_Prova/Train"
-NUM_SCENES = 2
+NUM_SCENES = 10
 INITIAL_SCENE = 0
 IMG_SIZE = 64

@@ -25,25 +25,25 @@ class Background:
         y_rand = random.uniform(-2, 1)
         background_color = get_background_color()
 
-        self.back = Figure(scale=[-1.0 + x_rand, 3.0 + y_rand, -10.0],
+        self.back = Figure(scale=[16.0, 18.0, 10.0],
                            x_axis=0,
                            y_axis=0,
-                           position=[16.0, 18.0, 10.0],
+                           position=[-1.0 + x_rand, 3.0 + y_rand, -10.0],
                            color=background_color)
-        self.bottom = Figure(scale=[-1.0 + x_rand, -5.0 + y_rand, -10.0],
+        self.bottom = Figure(scale=[16.0, 18.0, 10.0],
                              x_axis=90,
                              y_axis=0,
-                             position=[16.0, 18.0, 10.0],
+                             position=[-1.0 + x_rand, -5.0 + y_rand, -10.0],
                              color=background_color)
-        self.left = Figure(scale=[-7.0 + x_rand, 3.0 + y_rand, -10.0],
+        self.left = Figure(scale=[16.0, 18.0, 10.0],
                            x_axis=0,
                            y_axis=90,
-                           position=[16.0, 18.0, 10.0],
+                           position=[-7.0 + x_rand, 3.0 + y_rand, -10.0],
                            color=background_color)
-        self.right = Figure(scale=[7.0 + x_rand, 3.0 + y_rand, -10.0],
+        self.right = Figure(scale=[16.0, 18.0, 10.0],
                             x_axis=0,
                             y_axis=90,
-                            position=[16.0, 18.0, 10.0],
+                            position=[7.0 + x_rand, 3.0 + y_rand, -10.0],
                             color=background_color)
 
     def draw_background(self, plane, shader, view, vao):
