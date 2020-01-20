@@ -4,7 +4,5 @@
 
 from Model import generate_models
 
-
 if __name__ == "__main__":
-
     generate_models()

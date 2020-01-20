@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
-MAIN_PATH = "/Users/toniginard/Desktop/Img_Prova/Train"
+SET = "/Train"
+MAIN_PATH = "/Images" + SET
 NUM_SCENES = 10
 INITIAL_SCENE = 0
-IMG_SIZE = 64
+IMG_SIZE = 128

@@ -4,6 +4,7 @@
 
 from OpenGL.GL import *
 from PIL import Image
+import os
 
 
 def render_to_jpg(path):
@@ -17,4 +18,4 @@ def render_to_jpg(path):
     data = glReadPixels(x, y, width, height, GL_RGB, GL_UNSIGNED_BYTE)
     image = Image.frombytes("RGB", (width, height), data)
     image = image.transpose(Image.FLIP_TOP_BOTTOM)
-    image.save(path, "JPEG")
+    image.save(os.getcwd() + path, "JPEG")
