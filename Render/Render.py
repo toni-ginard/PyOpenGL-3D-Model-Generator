@@ -12,6 +12,7 @@ def render_to_jpg(path):
 
     :param path: path where to store the image.
     """
+    # print(os.getcwd() + ' - ' + path)
     x, y, width, height = glGetDoublev(GL_VIEWPORT)
     width, height = int(width), int(height)
     glPixelStorei(GL_PACK_ALIGNMENT, 1)
