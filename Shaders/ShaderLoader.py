@@ -12,7 +12,6 @@ def load_shader(shader_file):
     """ Load shaders' files.
     :param shader_file: file to load.
     """
-    os.chdir("/Users/toniginard/PycharmProjects/Generador-Models-3D")
     with open(shader_file) as f:
         shader_source = f.read()
     f.close()
